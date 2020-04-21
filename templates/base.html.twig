@@ -2,11 +2,36 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}{% endblock %}SnowTricks - P6 - OpenClassrooms - Kinder Théo</title>
+
+        {% block stylesheets %}
+        {% endblock %}
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.3.1/css/all.min.css" integrity="sha256-YE3PHxFphlX3UEa7kvmKqpR34cFrAcX8QV54eUOT/7k=" crossorigin="anonymous" />
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+    {% include "partials/header.html.twig" %}
+
+    {% for label, messages in app.flashes %}
+        <div class="container">
+            <div class="alert alert-{{ label }} text-center">
+                {% for message in messages %}
+                {{ message | raw }}
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+
+        {% block body %}
+        {% endblock %}
+
+    {% include "partials/footer.html.twig" %}
     </body>
 </html>
+
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/popper.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% block javascripts %}
+{% endblock %}

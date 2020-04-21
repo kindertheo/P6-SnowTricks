@@ -1,0 +1,13 @@
+a:link {
+    text-decoration: none;
+}
+
+img.tricks {
+    max-height: 240px;
+    max-width: 240px;
+}
+
+.container, .container-fluid {
+    padding-top: 3em;
+    padding-bottom: 3em;
+}

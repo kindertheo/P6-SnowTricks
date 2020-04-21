@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}HomePage{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <img class="img-fluid homepage" src="{{ asset("img/homepage.jpg") }}" alt="Homepage">
+    </div>
+
+    <div class="container-fluid">
+        <h1 class="h3 text-center">Liste des tricks</h1>
+
+        <div class="row">
+            {% for trick in tricks %}
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
+                    <div class="card">
+                        <a href="#" >
+                            <div class="card-title text-center">{{ trick.name }}</div>
+                            <img class="img-thumbnail tricks" src="{{ asset(trick.image) }}" alt="Tricks 5">
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}
