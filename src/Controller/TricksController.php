@@ -27,8 +27,9 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/tricks/{id}", name="tricks_display")
-     * @param $tricks
+     * @Route("/tricks/{id}", name="tricks_display",  requirements={"id"="\d+"})
+     * @param TricksRepository $tricks
+     * @param $id
      * @return Response
      */
     public function display(TricksRepository $tricks, $id){
@@ -39,7 +40,7 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/tricks/add", name="tricks_add")
+     * @Route("/tricks/add/", name="tricks_add")
      * @param EntityManagerInterface $manager
      * @param Request $request
      * @return RedirectResponse|Response
@@ -66,7 +67,7 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/tricks/{id}/delete", name="tricks_delete")
+     * @Route("/tricks/{id}/delete", name="tricks_delete",  requirements={"id"="\d+"})
      * @param Tricks $tricks
      * @param EntityManagerInterface $manager
      * @return RedirectResponse
@@ -81,7 +82,7 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("tricks/{id}/update", name="tricks_update")
+     * @Route("tricks/{id}/update", name="tricks_update",  requirements={"id"="\d+"})
      * @param Tricks $tricks
      * @param EntityManagerInterface $manager
      * @param Request $request
