@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Role;
 use App\Entity\Tricks;
 use App\Entity\User;
 use Cocur\Slugify\Slugify;
@@ -23,6 +24,21 @@ class AppFixtures extends Fixture
     {
 
         $faker = Faker\Factory::create();
+
+        $adminRole = new Role();
+        $adminRole->setTitle("ROLE_ADMIN");
+        $manager->persist($adminRole);
+
+
+        $adminUser = new User;
+        $adminUser->setFirstName("Théo")
+                ->setLastName("Kinder")
+                ->setEmail("kinder.theo@gmail.com")
+                ->setPassword($this->encoder->encodePassword($adminUser,"password"))
+                ->setPicture("https://avatars.io/twitter/logiezer")
+                ->addUserRole($adminRole);
+        $manager->persist($adminUser);
+        $manager->flush();
         $slugify = new Slugify();
 
         $users = [];
