@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Tricks;
+use App\Form\CommentType;
 use App\Form\TricksType;
+use App\Repository\CommentRepository;
 use App\Repository\TricksRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TricksController extends AbstractController
 {
     /**
+     * List of tricks
      * @Route("/tricks", name="tricks_show")
      * @param TricksRepository $tricks
      * @return Response
@@ -27,15 +31,40 @@ class TricksController extends AbstractController
     }
 
     /**
+     * Page of one trick
      * @Route("/tricks/{id}", name="tricks_display",  requirements={"id"="\d+"})
      * @param TricksRepository $tricks
+     * @param CommentRepository $comment
+     * @param Request $request
+     * @param EntityManagerInterface $manager
      * @param $id
      * @return Response
      */
-    public function display(TricksRepository $tricks, $id){
+    public function display(TricksRepository $tricks, CommentRepository $comment, Request $request, EntityManagerInterface $manager, $id){
+        //create form for comment
+        $newComment = new Comment();
+        $form = $this->createForm(CommentType::class, $newComment);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid() && $this->getUser()){
+            $newComment->setAuthor($this->getUser())
+                    ->setTricks($tricks->findOneById($id));
+
+            $manager->persist($newComment);
+            $manager->flush();
+
+            $this->addFlash("success", "Le commentaire a bien été ajouté!");
+
+            return $this->redirectToRoute("tricks_display", ['id' => $id]);
+        }
+
 
         return $this->render("tricks/display.html.twig", [
-            'tricks' => $tricks->findOneById($id)
+            'tricks' => $tricks->findOneById($id),
+            'comments' => $comment->findBy([
+                'tricks' => $id
+            ]),
+            'form' => $form->createView()
         ]);
     }
 
