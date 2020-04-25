@@ -11,3 +11,13 @@ img.tricks {
     padding-top: 3em;
     padding-bottom: 3em;
 }
+
+img.avatar{
+    max-width: 120px;
+    max-height: 120px;
+}
+
+img.avatar-micro{
+    max-width: 60px;
+    max-height: 60px;
+}

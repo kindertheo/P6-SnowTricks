@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Modification du profil{% endblock %}
+
+
+{% block body %}
+<div class="container">
+    <h1 class="h3">Modification du profil</h1>
+    {{ form_start(form) }}
+
+    <div class="row">
+        <div class="col-md-6">
+            {{ form_row(form.firstName) }}
+            {{ form_row(form.lastName) }}
+            {{ form_row(form.email) }}
+        </div>
+        <div class="col-md-6">
+            {{ form_row(form.picture) }}
+            {{ form_row(form.introduction) }}
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">Enregistrer</button>
+    {{ form_end(form) }}
+
+</div>
+{% endblock %}

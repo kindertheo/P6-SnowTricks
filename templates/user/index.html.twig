@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1 class="h4 mb-5">{{ user.firstName }}</h1>
+                {% if user.introduction is not empty %}
+                <p>{{ user.introduction }}</p>
+                {% else %}
+                <p>Pas d'introduction. Veuillez en ajouter une.</p>
+                {% endif %}
+            </div>
+            <div class="col">
+                <img src="{{ user.picture }}" alt="Image de {{ user.firstName }} {{ user.lastName }}" class="img-thumbnail mb-5">
+                <p>Adresse email : <br>
+                    {{ user.email }}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
