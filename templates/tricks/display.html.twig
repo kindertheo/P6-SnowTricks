@@ -24,6 +24,31 @@
             </div>
         </div>
 
+        <h2 class="h3">Commentaires</h2>
+        <div class="row">
+                {% for comment in comments %}
+                <div class="col-12">
+                    <div class="card border-secondary mb-3">
+                        <div class="card-header">
+                            <img src="{{ asset(comment.author.picture) }}" alt="Photo de profil" class="avatar-micro">
+                            {{ comment.author.firstName }} {{ comment.author.lastName }}
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ comment.content }}</p>
+                            <p>{{ comment.date|date('d/m/Y') }}</p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                {% endfor %}
+        </div>
+        {% if app.user %}
+        <h3>Ecrire un commentaire</h3>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+            <button type="submit" class="btn btn-success">Envoyer</button>
+        {{ form_end(form) }}
+        {% endif %}
     </div>
 
 {% endblock %}
