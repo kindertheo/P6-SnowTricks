@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">SnowTricks</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path("home") }}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path("tricks_show") }}">Tricks</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path("admin_tricks") }}">Gestion des tricks</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path("admin_comment") }}">Gestion des commentaires</a>
+            </li>
+
+            {% if app.user is null %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path("account_login") }}">Sign in</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ path("account_register") }}" class="nav-link">Register</a>
+            </li>
+            {% endif %}
+            {% if app.user %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path("account_logout") }}">Log out</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

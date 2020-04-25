@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}SnowTricks - P6 - OpenClassrooms - Kinder Théo</title>
+
+    {% block stylesheets %}
+    {% endblock %}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />    </head>
+<body>
+{% include "admin/partials/header.html.twig" %}
+
+{% for label, messages in app.flashes %}
+    <div class="container">
+        <div class="alert alert-{{ label }} text-center">
+            {% for message in messages %}
+                {{ message | raw }}
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}
+
+{% block body %}
+{% endblock %}
+
+{% include "admin/partials/footer.html.twig" %}
+</body>
+</html>
+
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/popper.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+{% block javascripts %}
+{% endblock %}
