@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Comment;
 use App\Entity\Role;
 use App\Entity\Tricks;
 use App\Entity\User;
@@ -71,6 +72,7 @@ class AppFixtures extends Fixture
 
         $count = count($users);
 
+        $tricks = [];
         /* generate tricks */
         for($i = 1; $i <= 12; $i++){
             $trick = new Tricks();
@@ -84,8 +86,21 @@ class AppFixtures extends Fixture
                 ->setImage($image)
                 ->setAuthor($users[mt_rand(0, $count - 1)]);
 
+            $tricks[] = $trick;
+
             $manager->persist($trick);
         }
+
+        /*generate comment*/
+        for($i = 1; $i <= 25; $i++){
+            $comment = new Comment();
+            $comment->setContent($faker->paragraph())
+                    ->setTricks($tricks[array_rand($tricks)])
+                    ->setAuthor($users[array_rand($users)])
+                    ->setDate(new \DateTime());
+            $manager->persist($comment);
+        }
+
         $manager->flush();
     }
 }
