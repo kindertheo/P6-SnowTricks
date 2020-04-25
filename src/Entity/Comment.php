@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Comment
 {
@@ -36,6 +38,18 @@ class Comment
      * @ORM\ManyToOne(targetEntity="App\Entity\Tricks", inversedBy="comments")
      */
     private $tricks;
+
+    /**
+     * Initialise la date
+     * @ORM\PreUpdate()
+     * @ORM\PrePersist()
+     * @throws Exception
+     */
+    public function initializeDate(){
+        if(empty($this->date)){
+            $this->date = new \DateTime();
+        }
+    }
 
     public function getId(): ?int
     {
