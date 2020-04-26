@@ -75,7 +75,7 @@ class TricksController extends AbstractController
      * @Route("/tricks/add/", name="tricks_add")
      * @param EntityManagerInterface $manager
      * @param Request $request
-     * @return RedirectResponse|Response
+     * @return Response
      */
     /*TODO Gérer les images et les vidéos !*/
     public function add(EntityManagerInterface $manager, Request $request){
@@ -85,11 +85,18 @@ class TricksController extends AbstractController
 
         $form->handleRequest($request);
 
+
         if($form->isSubmitted() && $form->isValid()){
             $manager->persist($tricks);
             $manager->flush();
 
             $this->addFlash("success", "Le tricks a bien été ajouté!");
+
+            return $this->redirectToRoute("tricks_show");
+        }
+        elseif($form->getErrors(true, false)->count() > 0){
+
+            $this->addFlash("danger", $form->getErrors(true));
 
             return $this->redirectToRoute("tricks_show");
         }
