@@ -7,7 +7,17 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <p>{{ tricks.name }}</p>
+                <p>
+                    {{ tricks.name }}
+                    {% if app.user %}
+                    <a href="{{ path("tricks_update", {'id' : tricks.id}) }}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{{ path("tricks_delete", {'id': tricks.id}) }}">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                    {% endif %}
+                </p>
                 <p>{{ tricks.description }}</p>
                 <p>Créer le {{ tricks.createdAt|date('d/m/Y à H:i') }}</p>
                 {% if tricks.updatedAt %}
