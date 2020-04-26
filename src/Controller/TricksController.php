@@ -40,6 +40,7 @@ class TricksController extends AbstractController
      * @param $id
      * @return Response
      */
+    /*TODO Créer un service de pagination !*/
     public function display(TricksRepository $tricks, CommentRepository $comment, Request $request, EntityManagerInterface $manager, $id){
         //create form for comment
         $newComment = new Comment();
@@ -74,6 +75,7 @@ class TricksController extends AbstractController
      * @param Request $request
      * @return RedirectResponse|Response
      */
+    /*TODO Gérer les images et les vidéos !*/
     public function add(EntityManagerInterface $manager, Request $request){
         $tricks = new Tricks;
 

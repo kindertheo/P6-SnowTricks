@@ -1,0 +1,48 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des tricks{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="h3">Gestion des tricks</h1>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Crée le</th>
+                <th>Modifié le</th>
+                <th>Slug</th>
+                <th>Images</th>
+                <th>Vidéo</th>
+                <th>Auteur</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for trick in tricks %}
+                    <tr>
+                        <td>{{ trick.id }}</td>
+                        <td>{{ trick.name }}</td>
+                        <td>{{ trick.description }}</td>
+                        <td>{{ trick.createdAt|date('d/m/Y H:i') }}</td>
+                        <td>{{ trick.updatedAt|date('d/m/Y H:i') }}</td>
+                        <td>{{ trick.slug }}</td>
+                        <td>
+                            <img src="{{ asset(trick.image) }}" alt="Image du trick" class="tricks-micro"></td>
+                        <td>{{ trick.video }}</td>
+                        <td>
+                            <a href="{{ path("user_profile", {'id' : trick.author.id}) }}">{{ trick.author.lastName }}</a>
+                        </td>
+                        <td>
+                            <a href="#">Editer</a>
+                            <a href="{{ path('admin_tricks_delete', {'id':trick.id}) }}">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

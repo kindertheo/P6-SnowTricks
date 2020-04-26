@@ -1,0 +1,56 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <h1 class="h3">Dashboard</h1>
+        <div class="row">
+            <div class="col">
+                <div class="card bg-primary text-white mb-3 text-center">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fas fa-snowboarding fa-3x"></i>
+                            </div>
+                            <div class="col-8">
+                                <h4 class="card-title">{{ tricksCount }} tricks publiés</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card bg-success text-white mb-3 text-center">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fas fa-users fa-3x"></i>
+                            </div>
+                            <div class="col-8">
+                                <h4 class="card-title">{{ usersCount }} utilisateurs</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card bg-warning text-white mb-3 text-center">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fas fa-comments fa-3x"></i>
+                            </div>
+                            <div class="col-8">
+                                <h4 class="card-title">{{ commentsCount }} commentaires</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+</div>
+{% endblock %}

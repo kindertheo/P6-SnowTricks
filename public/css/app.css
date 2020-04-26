@@ -7,6 +7,11 @@ img.tricks {
     max-width: 240px;
 }
 
+img.tricks-micro {
+    max-height: 40px;
+    max-width: 40px;
+}
+
 .container, .container-fluid {
     padding-top: 3em;
     padding-bottom: 3em;

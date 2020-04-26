@@ -308,7 +308,7 @@ class User implements UserInterface
      */
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
+        //Implement eraseCredentials() method.
     }
 
     /**
