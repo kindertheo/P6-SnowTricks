@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Image;
 use App\Entity\Tricks;
 use App\Form\CommentType;
 use App\Form\TricksType;
 use App\Repository\CommentRepository;
 use App\Repository\TricksRepository;
+use App\Service\UploadImgService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -75,18 +77,24 @@ class TricksController extends AbstractController
      * @Route("/tricks/add/", name="tricks_add")
      * @param EntityManagerInterface $manager
      * @param Request $request
+     * @param UploadImgService $upload
      * @return Response
      */
     /*TODO Gérer les images et les vidéos !*/
-    public function add(EntityManagerInterface $manager, Request $request){
+    public function add(EntityManagerInterface $manager, Request $request, UploadImgService $upload){
         $tricks = new Tricks;
 
         $form = $this->createForm(TricksType::class, $tricks);
 
         $form->handleRequest($request);
 
-
         if($form->isSubmitted() && $form->isValid()){
+            $img = $form['image']->getData();
+            $fileName = $upload->upload($img);
+
+            $tricks->setImage("img/" . $fileName);
+            $tricks->setAuthor($this->getUser());
+
             $manager->persist($tricks);
             $manager->flush();
 
