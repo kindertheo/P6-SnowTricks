@@ -9,6 +9,7 @@ use App\Form\TricksType;
 use App\Repository\CommentRepository;
 use App\Repository\TricksRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -70,6 +71,7 @@ class TricksController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/tricks/add/", name="tricks_add")
      * @param EntityManagerInterface $manager
      * @param Request $request
@@ -98,6 +100,7 @@ class TricksController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("/tricks/{id}/delete", name="tricks_delete",  requirements={"id"="\d+"})
      * @param Tricks $tricks
      * @param EntityManagerInterface $manager
@@ -113,6 +116,7 @@ class TricksController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
      * @Route("tricks/{id}/update", name="tricks_update",  requirements={"id"="\d+"})
      * @param Tricks $tricks
      * @param EntityManagerInterface $manager
