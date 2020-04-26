@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Comment;
 use App\Entity\Tricks;
 use App\Repository\TricksRepository;
 use Doctrine\ORM\EntityManager;
@@ -34,11 +35,12 @@ class AdminTricksController extends AbstractController
      */
     public function delete(Tricks $tricks, EntityManagerInterface $manager){
         $name = $tricks->getId();
+
         $manager->remove($tricks);
         $manager->flush();
 
         $this->addFlash("success", "Le tricks '$name' a bien été supprimé");
 
-        return $this->redirectToRoute("admin_comment");
+        return $this->redirectToRoute("admin_tricks");
     }
 }
