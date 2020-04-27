@@ -89,13 +89,31 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $img = $form['image']->getData();
+
+            /*Put all images in an array*/
+            $arrayImages = $tricks->getImages();
+
+            for($i = 0; $i < count($arrayImages); $i++ ){
+                /*Grab UploadFile object of image*/
+                $img = $form['images']->get($i)->get('image')->getNormData();
+                /*Upload it*/
+                $fileName = $upload->upload($img);
+                
+                $arrayImages[$i]->setPath("img/". $fileName);
+                $arrayImages[$i]->setTricks($tricks);
+                $manager->persist($arrayImages[$i]);
+            }
+
+            /*Upload l'image principale*/
+            $img = $form['main_image']->getData();
             $fileName = $upload->upload($img);
 
-            $tricks->setImage("img/" . $fileName);
+            /*TODO Penser a fonctionner de manière dynamique*/
+            $tricks->setMainImage("img/" . $fileName);
             $tricks->setAuthor($this->getUser());
 
             $manager->persist($tricks);
+
             $manager->flush();
 
             $this->addFlash("success", "Le tricks a bien été ajouté!");
