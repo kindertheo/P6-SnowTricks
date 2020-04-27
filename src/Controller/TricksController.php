@@ -98,7 +98,7 @@ class TricksController extends AbstractController
                 $img = $form['images']->get($i)->get('image')->getNormData();
                 /*Upload it*/
                 $fileName = $upload->upload($img);
-                
+
                 $arrayImages[$i]->setPath("img/". $fileName);
                 $arrayImages[$i]->setTricks($tricks);
                 $manager->persist($arrayImages[$i]);
