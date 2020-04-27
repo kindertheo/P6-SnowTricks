@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+/*TODO Put ON DELETE Cascade in DB*/
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TricksRepository")
  * @ORM\HasLifecycleCallbacks()
