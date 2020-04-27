@@ -52,7 +52,7 @@ class Tricks
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $image;
+    private $mainImage;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -173,14 +173,14 @@ class Tricks
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getMainImage(): ?string
     {
-        return $this->image;
+        return $this->mainImage;
     }
 
-    public function setImage(string $image): self
+    public function setMainImage(string $mainImage): self
     {
-        $this->image = $image;
+        $this->mainImage = $mainImage;
 
         return $this;
     }
