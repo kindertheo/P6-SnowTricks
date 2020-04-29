@@ -31,13 +31,17 @@
                         <td>{{ trick.updatedAt|date('d/m/Y H:i') }}</td>
                         <td>{{ trick.slug }}</td>
                         <td>
-                            <img src="{{ asset(trick.image) }}" alt="Image du trick" class="tricks-micro"></td>
-                        <td>{{ trick.video }}</td>
+                            <img src="{{ asset(trick.mainimage) }}" alt="Image du trick" class="tricks-micro"></td>
+                        <td>
+                            {% for video in trick.videos %}
+                            <a href="{{ asset(video.video) }}">Lien</a>
+                            {% endfor %}
+                        </td>
                         <td>
                             <a href="{{ path("user_profile", {'id' : trick.author.id}) }}">{{ trick.author.lastName }}</a>
                         </td>
                         <td>
-                            <a href="#">Editer</a>
+                            <a href="{{ path('tricks_update', {'id':trick.id}) }}">Editer</a>
                             <a href="{{ path('admin_tricks_delete', {'id':trick.id}) }}">Supprimer</a>
                         </td>
                     </tr>

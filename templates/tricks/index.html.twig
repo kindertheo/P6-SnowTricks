@@ -11,8 +11,18 @@
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
                     <div class="card text-center">
                         <a href="{{ path("tricks_display", {id : trick.id }) }}" >
-                            <div class="card-title text-center">{{ trick.name }}</div>
-                            <img class="img-thumbnail tricks" src="{{ asset(trick.image) }}" alt="Tricks 5">
+                            <div class="card-title text-center">
+                                {{ trick.name }}
+                                {% if app.user %}
+                                    <a href="{{ path("tricks_update", {'id' : trick.id}) }}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{{ path("tricks_delete", {'id': trick.id}) }}">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                            <img class="img-thumbnail tricks" src="{{ asset(trick.mainimage) }}" alt="Tricks 5">
                             <p>{{ trick.description }}</p>
                         </a>
                     </div>

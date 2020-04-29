@@ -7,6 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+/*TODO delete video */
+/*TODO Put ON DELETE Cascade in DB*/
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TricksRepository")
@@ -52,7 +55,7 @@ class Tricks
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $image;
+    private $mainImage;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -70,9 +73,23 @@ class Tricks
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="Tricks")
+     */
+    private $images;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="tricks")
+     * @Assert\Valid()
+     *  Allow validation of Video Entity
+     */
+    private $videos;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
 
     /**
@@ -167,14 +184,14 @@ class Tricks
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getMainImage(): ?string
     {
-        return $this->image;
+        return $this->mainImage;
     }
 
-    public function setImage(string $image): self
+    public function setMainImage(string $mainImage): self
     {
-        $this->image = $image;
+        $this->mainImage = $mainImage;
 
         return $this;
     }
@@ -228,6 +245,68 @@ class Tricks
             // set the owning side to null (unless already changed)
             if ($comment->getTricks() === $this) {
                 $comment->setTricks(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Image[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setTricks($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+            // set the owning side to null (unless already changed)
+            if ($image->getTricks() === $this) {
+                $image->setTricks(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Video[]
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setTricks($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): self
+    {
+        if ($this->videos->contains($video)) {
+            $this->videos->removeElement($video);
+            // set the owning side to null (unless already changed)
+            if ($video->getTricks() === $this) {
+                $video->setTricks(null);
             }
         }
 

@@ -83,7 +83,7 @@ class AppFixtures extends Fixture
 
             $trick->setName($name)
                 ->setDescription($faker->paragraph())
-                ->setImage($image)
+                ->setMainImage($image)
                 ->setAuthor($users[mt_rand(0, $count - 1)]);
 
             $tricks[] = $trick;

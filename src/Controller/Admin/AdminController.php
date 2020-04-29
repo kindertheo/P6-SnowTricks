@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Service\StatsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
@@ -11,7 +12,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/", name="admin_index")
      * @param StatsService $statsService
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function index(StatsService $statsService)
     {

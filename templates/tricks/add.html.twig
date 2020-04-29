@@ -5,7 +5,6 @@
 {% form_theme form _self %}
 
 {% block body %}
-
     <div class="container">
         <h1 class="text-center">Ajout d'un trick</h1>
         {{ form_start(form) }}
@@ -21,4 +20,113 @@
         {{ form_end(form) }}
     </div>
 
+{% endblock %}
+
+
+{% block _tricks_images_widget %}
+    {{ form_widget(form) }}
+    <div class="form-group">
+        <button type="button" id="add-image" class="btn btn-primary">Ajouter une image</button>
+    </div>
+
+{% endblock %}
+
+{% block _tricks_images_row %}
+{{ form_widget(form) }}
+{% endblock %}
+
+{% block _tricks_images_entry_widget %}
+    <div class="form-group" id="block_{{ id }}">
+        <div class="row">
+            <div class="col-10">
+                <div class="row">
+                    <div class="col">{{ form_widget(form.name) }}</div>
+                    <div class="col">{{ form_widget(form.image) }}</div>
+                </div>
+            </div>
+            <div class="col-2">
+                <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn btn-danger">X</button>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+
+{% block _tricks_video_widget %}
+    {{ form_widget(form) }}
+    <div class="form-group">
+        <button type="button" id="add-video" class="btn btn-primary">Ajouter une vidéo</button>
+    </div>
+
+{% endblock %}
+
+{% block _tricks_video_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block _tricks_video_entry_widget %}
+    <div class="form-group" id="block_{{ id }}">
+        <div class="row">
+            <div class="col-10">
+                <div class="row">
+                    <div class="col">{{ form_widget(form.name) }}</div>
+                    <div class="col">{{ form_widget(form.video) }}</div>
+                </div>
+            </div>
+            <div class="col-2">
+                <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn btn-danger">X</button>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+<script>
+    $('#add-image').click(function()
+    {
+        const index = $('#tricks_images div.form-group').length;
+
+        const tmpl= $('#tricks_images').data('prototype').replace(/__name__/g, index);
+
+        $('#tricks_images').append(tmpl);
+
+        handleDeleteButtons();
+    });
+
+    function handleDeleteButtons() {
+        $('button[data-action="delete"]').click(function(){
+            const target = this.dataset.target;
+            $(target).remove();
+
+        });
+    }
+
+    handleDeleteButtons();
+</script>
+
+<script>
+    $('#add-video').click(function()
+    {
+        const index = $('#tricks_video div.form-group').length;
+
+        const tmpl= $('#tricks_video').data('prototype').replace(/__name__/g, index);
+
+        $('#tricks_video').append(tmpl);
+
+        handleDeleteVideo();
+    });
+
+    function handleDeleteVideo() {
+        $('button[data-action="delete"]').click(function(){
+            const target = this.dataset.target;
+            $(target).remove();
+
+        });
+    }
+
+    handleDeleteVideo();
+</script>
 {% endblock %}
