@@ -50,7 +50,9 @@ class TricksController extends AbstractController
         $form = $this->createForm(CommentType::class, $newComment);
 
         $form->handleRequest($request);
+        /*Formulaire des commentaires*/
         if($form->isSubmitted() && $form->isValid() && $this->getUser()){
+            /*Ajoute l'utilisateur et le trick au commentaire*/
             $newComment->setAuthor($this->getUser())
                     ->setTricks($tricks->findOneById($id));
 
@@ -58,11 +60,11 @@ class TricksController extends AbstractController
             $manager->flush();
 
             $this->addFlash("success", "Le commentaire a bien été ajouté!");
-
+            /*Affiche la vue avec l'ajout du commentaire*/
             return $this->redirectToRoute("tricks_display", ['id' => $id]);
         }
 
-
+        /*Affiche la vue du trick*/
         return $this->render("tricks/display.html.twig", [
             'tricks' => $tricks->findOneById($id),
             'comments' => $comment->findBy([
@@ -89,35 +91,17 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-
-            /*Put all images in an array*/
-            $arrayImages = $tricks->getImages();
-
-            for($i = 0; $i < count($arrayImages); $i++ ){
-                /*Grab UploadFile object of image*/
-                $img = $form['images']->get($i)->get('image')->getNormData();
-                /*Upload it*/
-                $fileName = $upload->upload($img);
-
-                $arrayImages[$i]->setPath("img/". $fileName);
-                $arrayImages[$i]->setTricks($tricks);
-                $manager->persist($arrayImages[$i]);
-            }
-
-            /*Upload l'image principale*/
-            $img = $form['main_image']->getData();
-            $fileName = $upload->upload($img);
-
-            foreach($tricks->getVideos() as $video){
-                $video->setTricks($tricks);
-                $manager->persist($video);
-            }
-            /*TODO Penser a fonctionner de manière dynamique*/
+            /*Upload les images et les vidéos a travers un service*/
+            $upload->uploadImageAndVideo($form, $tricks, $manager);
+            /*Récupère le nom de l'image principale uploadé*/
+            $fileName = $upload->getFileNameMainImage();
+            /*Ajoute l'image principale*/
             $tricks->setMainImage("img/" . $fileName);
+            /*Ajoute l'user au trick*/
             $tricks->setAuthor($this->getUser());
 
+            /*Persiste et ajoute à la bdd*/
             $manager->persist($tricks);
-
             $manager->flush();
 
             $this->addFlash("success", "Le tricks a bien été ajouté!");
@@ -170,29 +154,8 @@ class TricksController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
-            /*Put all images in an array*/
-            $arrayImages = $tricks->getImages();
-
-            for($i = 0; $i < count($arrayImages); $i++ ){
-                /*Grab UploadFile object of image*/
-                $img = $form['images']->get($i)->get('image')->getNormData();
-                /*Upload it*/
-                $fileName = $upload->upload($img);
-
-                $arrayImages[$i]->setPath("img/". $fileName);
-                $arrayImages[$i]->setTricks($tricks);
-                $manager->persist($arrayImages[$i]);
-            }
-
-            /*Upload l'image principale*/
-            $img = $form['main_image']->getData();
-            $fileName = $upload->upload($img);
-
-            foreach($tricks->getVideos() as $video){
-                $video->setTricks($tricks);
-                $manager->persist($video);
-            }
-
+            /*Upload les images et les vidéos*/
+            $upload->uploadImageAndVideo($form, $tricks, $manager);
 
             $manager->persist($tricks);
             $manager->flush();
