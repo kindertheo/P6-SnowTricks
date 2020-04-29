@@ -18,14 +18,19 @@ class TricksType extends ApplicationType
         $builder
             ->add('name', TextType::class, $this->getConfiguration("Nom du tricks", "Entrez le nom"))
             ->add('description', TextareaType::class, $this->getConfiguration("Description", "Entrez une description représentant le trick"))
-            ->add('main_image', FileType::class, $this->getConfiguration("Image principale", "Image principale"))
+            ->add('main_image', FileType::class, $this->getConfiguration("Image principale", "Image principale", ['data_class' => null]))
             ->add('images', CollectionType::class, array(
                 "entry_type"    => ImageType::class,
                 "allow_add"     => true,
                 "allow_delete"  => true,
                 'entry_options' => ['label' => false],
             ))
-            ->add('video', UrlType::class, $this->getConfiguration("Vidéo", "Lien de la vidéo", ["required" => false]))
+            ->add('video', CollectionType::class, array(
+                "entry_type" => VideoType::class,
+                "allow_add"  => true,
+                "allow_delete" => true,
+                'entry_options' => ['label' => false],
+            ))
         ;
     }
 
