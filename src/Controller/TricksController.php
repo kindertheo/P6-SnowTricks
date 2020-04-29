@@ -108,6 +108,10 @@ class TricksController extends AbstractController
             $img = $form['main_image']->getData();
             $fileName = $upload->upload($img);
 
+            foreach($tricks->getVideos() as $video){
+                $video->setTricks($tricks);
+                $manager->persist($video);
+            }
             /*TODO Penser a fonctionner de manière dynamique*/
             $tricks->setMainImage("img/" . $fileName);
             $tricks->setAuthor($this->getUser());
@@ -154,14 +158,42 @@ class TricksController extends AbstractController
      * @param Tricks $tricks
      * @param EntityManagerInterface $manager
      * @param Request $request
+     * @param UploadImgService $upload
      * @return Response
      */
-    public function update(Tricks $tricks, EntityManagerInterface $manager, Request $request){
+    /*TODO Créer un service de création/update*/
+    /*TODO Rajouter les images et vidéos dans le formulaire*/
+    public function update(Tricks $tricks, EntityManagerInterface $manager, Request $request, UploadImgService $upload){
         $form = $this->createForm(TricksType::class, $tricks);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            /*Put all images in an array*/
+            $arrayImages = $tricks->getImages();
+
+            for($i = 0; $i < count($arrayImages); $i++ ){
+                /*Grab UploadFile object of image*/
+                $img = $form['images']->get($i)->get('image')->getNormData();
+                /*Upload it*/
+                $fileName = $upload->upload($img);
+
+                $arrayImages[$i]->setPath("img/". $fileName);
+                $arrayImages[$i]->setTricks($tricks);
+                $manager->persist($arrayImages[$i]);
+            }
+
+            /*Upload l'image principale*/
+            $img = $form['main_image']->getData();
+            $fileName = $upload->upload($img);
+
+            foreach($tricks->getVideos() as $video){
+                $video->setTricks($tricks);
+                $manager->persist($video);
+            }
+
+
             $manager->persist($tricks);
             $manager->flush();
 
