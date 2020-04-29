@@ -7,7 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
+use Symfony\Component\Validator\Constraints as Assert;
+/*TODO delete video */
 /*TODO Put ON DELETE Cascade in DB*/
 
 /**
@@ -77,10 +78,18 @@ class Tricks
      */
     private $images;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="tricks")
+     * @Assert\Valid()
+     *  Allow validation of Video Entity
+     */
+    private $videos;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
 
     /**
@@ -267,6 +276,37 @@ class Tricks
             // set the owning side to null (unless already changed)
             if ($image->getTricks() === $this) {
                 $image->setTricks(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Video[]
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setTricks($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): self
+    {
+        if ($this->videos->contains($video)) {
+            $this->videos->removeElement($video);
+            // set the owning side to null (unless already changed)
+            if ($video->getTricks() === $this) {
+                $video->setTricks(null);
             }
         }
 
