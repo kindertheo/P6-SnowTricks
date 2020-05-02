@@ -29,3 +29,7 @@ services:
     App\Service\UploadImgService:
         arguments:
             $targetDirectory: '%kernel.project_dir%/public/img'
+
+    App\Service\PaginationCommentService:
+        arguments:
+            $templatePath: 'partials/pagination.html.twig'
