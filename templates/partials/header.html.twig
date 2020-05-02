@@ -16,6 +16,11 @@
                 <li class="nav-item">
                     <a href="{{ path("tricks_add") }}" class="nav-link">Ajouter un trick</a>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a href="{{ path("admin_index") }}" class="nav-link">Admin Dashboard</a>
+                    </li>
+                {% endif %}
             {% endif %}
         </ul>
 
