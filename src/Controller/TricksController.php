@@ -3,12 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
-use App\Entity\Image;
 use App\Entity\Tricks;
 use App\Form\CommentType;
 use App\Form\TricksType;
+use App\Form\TricksUpdateType;
 use App\Repository\CommentRepository;
 use App\Repository\TricksRepository;
+use App\Service\ImageService;
 use App\Service\UploadImgService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -20,6 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TricksController extends AbstractController
 {
+    /*TODO Routing selon le slug et non l'id!*/
     /**
      * List of tricks
      * @Route("/tricks", name="tricks_show")
@@ -79,11 +81,10 @@ class TricksController extends AbstractController
      * @Route("/tricks/add/", name="tricks_add")
      * @param EntityManagerInterface $manager
      * @param Request $request
-     * @param UploadImgService $upload
+     * @param UploadImgService $uploadImgService
      * @return Response
      */
-    /*TODO Gérer les images et les vidéos !*/
-    public function add(EntityManagerInterface $manager, Request $request, UploadImgService $upload){
+    public function add(EntityManagerInterface $manager, Request $request, UploadImgService $uploadImgService){
         $tricks = new Tricks;
 
         $form = $this->createForm(TricksType::class, $tricks);
@@ -91,13 +92,9 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            /*Upload les images et les vidéos a travers un service*/
-            $upload->uploadImageAndVideo($form, $tricks, $manager);
-            /*Récupère le nom de l'image principale uploadé*/
-            $fileName = $upload->getFileNameMainImage();
-            /*Ajoute l'image principale*/
-            $tricks->setMainImage("img/" . $fileName);
-            /*Ajoute l'user au trick*/
+            /*TODO Corriger ces deux lignes*/
+            $uploadImgService->upload($form['mainImage']->getData());
+            $tricks->setMainImage("img/".$uploadImgService->getFileNameMainImage());
             $tricks->setAuthor($this->getUser());
 
             /*Persiste et ajoute à la bdd*/
@@ -106,7 +103,7 @@ class TricksController extends AbstractController
 
             $this->addFlash("success", "Le tricks a bien été ajouté!");
 
-            return $this->redirectToRoute("tricks_show");
+            return $this->redirectToRoute("tricks_update", ['id' => $tricks->getId()]);
         }
         elseif($form->getErrors(true, false)->count() > 0){
 
@@ -116,7 +113,8 @@ class TricksController extends AbstractController
         }
 
         return $this->render("tricks/add.html.twig", [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'tricks' => $tricks
         ]);
     }
 
@@ -125,9 +123,13 @@ class TricksController extends AbstractController
      * @Route("/tricks/{id}/delete", name="tricks_delete",  requirements={"id"="\d+"})
      * @param Tricks $tricks
      * @param EntityManagerInterface $manager
+     * @param ImageService $imageService
      * @return RedirectResponse
      */
-    public function delete(Tricks $tricks, EntityManagerInterface $manager){
+    /*TODO Delete image */
+    public function delete(Tricks $tricks, EntityManagerInterface $manager, ImageService $imageService){
+        /*Delete images in directory */
+        $imageService->deleteAllImageFromTrick($tricks);
         $manager->remove($tricks);
         $manager->flush();
 
@@ -145,17 +147,12 @@ class TricksController extends AbstractController
      * @param UploadImgService $upload
      * @return Response
      */
-    /*TODO Créer un service de création/update*/
-    /*TODO Rajouter les images et vidéos dans le formulaire*/
     public function update(Tricks $tricks, EntityManagerInterface $manager, Request $request, UploadImgService $upload){
-        $form = $this->createForm(TricksType::class, $tricks);
+        $form = $this->createForm(TricksUpdateType::class, $tricks);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-
-            /*Upload les images et les vidéos*/
-            $upload->uploadImageAndVideo($form, $tricks, $manager);
 
             $manager->persist($tricks);
             $manager->flush();

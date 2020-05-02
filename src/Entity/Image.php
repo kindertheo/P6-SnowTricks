@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 /*TODO Put ON DELETE Cascade in DB*/
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
@@ -34,6 +35,7 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\File(mimeTypes={ "image/jpeg" , "image/png" , "image/tiff" , "image/svg+xml"})
      */
     private $image;
 

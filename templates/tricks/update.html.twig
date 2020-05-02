@@ -1,130 +1,42 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Modification de {{ tricks.name }}{% endblock %}
-{# TODO Vérifier si ca marche bien#}
-
-{% form_theme form _self %}
+{% block title %}Modification d'un trick{% endblock %}
 
 {% block body %}
     <div class="container">
-
+        <h1 class="text-center">Edition d'un trick</h1>
         {{ form_start(form) }}
 
-        {{ form_widget(form) }}
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-light">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.description) }}
+                        <div class="row p-5">
+                            <img src="{{ asset(tricks.mainImage) }}" class="tricks " alt="Image de couverture de {{ tricks.name }}">
+                        </div>
+                    <a type="button" href="{{ path("tricks_update_image_add", {'id': tricks.id, 'main': true}) }}" class="btn btn-success">Changer l'image principale</a>
 
-        <button type="submit" class="btn btn-primary">Modifier</button>
+                    <div class="row p-5">
+                        {% for image in tricks.images %}
+                            <img src="{{ asset(image.path) }}" class="tricks pl-3 pr-3" id="deleteMedia_{{ image.id }}" alt="Image de {{ tricks.name }}">
+                            <a id="deleteMedia_{{ image.id }}" href="{{ path('tricks_update_image_delete', {'slug': tricks.slug, 'id': image.id}) }}"><i class="fas fa-trash-alt"></i></a>
+                        {% endfor %}
+                        </div>
+                    <a type="button" href="{{ path("tricks_update_image_add", {'id': tricks.id}) }}" class="btn btn-success">Ajouter une image</a>
+                    <div class="row p-5">
+                        {% for video in tricks.videos %}
+                            <iframe width="420" height="315" src="{{ video.video }}" frameborder="0" allowfullscreen="" id="deleteMediaVideo_"></iframe>
+                            <a id="deleteMediaVideo_{{ video.id }}" href="{{ path('tricks_update_video_delete', {'slug': tricks.slug, 'id': video.id}) }}"><i class="fas fa-trash-alt"></i></a>
+                        {% endfor %}
+                    </div>
+                    <a type="button" href="{{ path("tricks_update_video_add", {'id': tricks.id}) }}" class="btn btn-success">Ajouter une vidéo</a>
+                </div>
+                <button type="submit" class="btn btn-success">Modifier le tricks</button>
+                </div>
+            </div>
+
         {{ form_end(form) }}
-
-    </div>
-
-
-{% endblock %}
-
-
-{% block _tricks_images_widget %}
-    {{ form_widget(form) }}
-    <div class="form-group">
-        <button type="button" id="add-image" class="btn btn-primary">Ajouter une image</button>
-    </div>
-
-{% endblock %}
-
-{% block _tricks_images_row %}
-    {{ form_widget(form) }}
-{% endblock %}
-
-{% block _tricks_images_entry_widget %}
-    <div class="form-group" id="block_{{ id }}">
-        <div class="row">
-            <div class="col-10">
-                <div class="row">
-                    <div class="col">{{ form_widget(form.name) }}</div>
-                    <div class="col">{{ form_widget(form.image) }}</div>
-                </div>
-            </div>
-            <div class="col-2">
-                <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn btn-danger">X</button>
-            </div>
-        </div>
-
     </div>
 {% endblock %}
 
-
-{% block _tricks_video_widget %}
-    {{ form_widget(form) }}
-    <div class="form-group">
-        <button type="button" id="add-video" class="btn btn-primary">Ajouter une vidéo</button>
-    </div>
-
-{% endblock %}
-
-{% block _tricks_video_row %}
-    {{ form_widget(form) }}
-{% endblock %}
-
-{% block _tricks_video_entry_widget %}
-    <div class="form-group" id="block_{{ id }}">
-        <div class="row">
-            <div class="col-10">
-                <div class="row">
-                    <div class="col">{{ form_widget(form.name) }}</div>
-                    <div class="col">{{ form_widget(form.video) }}</div>
-                </div>
-            </div>
-            <div class="col-2">
-                <button type="button" data-action="delete" data-target="#block_{{ id }}" class="btn btn-danger">X</button>
-            </div>
-        </div>
-
-    </div>
-{% endblock %}
-
-
-{% block javascripts %}
-    <script>
-        $('#add-image').click(function()
-        {
-            const index = $('#tricks_images div.form-group').length;
-
-            const tmpl= $('#tricks_images').data('prototype').replace(/__name__/g, index);
-
-            $('#tricks_images').append(tmpl);
-
-            handleDeleteButtons();
-        });
-
-        function handleDeleteButtons() {
-            $('button[data-action="delete"]').click(function(){
-                const target = this.dataset.target;
-                $(target).remove();
-
-            });
-        }
-
-        handleDeleteButtons();
-    </script>
-
-    <script>
-        $('#add-video').click(function()
-        {
-            const index = $('#tricks_video div.form-group').length;
-
-            const tmpl= $('#tricks_video').data('prototype').replace(/__name__/g, index);
-
-            $('#tricks_video').append(tmpl);
-
-            handleDeleteVideo();
-        });
-
-        function handleDeleteVideo() {
-            $('button[data-action="delete"]').click(function(){
-                const target = this.dataset.target;
-                $(target).remove();
-
-            });
-        }
-
-        handleDeleteVideo();
-    </script>
-{% endblock %}

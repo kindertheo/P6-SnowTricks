@@ -8,8 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-/*TODO delete video */
-/*TODO Put ON DELETE Cascade in DB*/
+/*TODO Ajouter contraintes de validation!*/
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TricksRepository")
@@ -29,11 +28,13 @@ class Tricks
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=8, minMessage="Le nom doit être plus long")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=25, minMessage="La description doit être plus longue")
      */
     private $description;
 
@@ -54,6 +55,7 @@ class Tricks
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\File(mimeTypes={ "image/jpeg" , "image/png" , "image/tiff" , "image/svg+xml"})
      */
     private $mainImage;
 
