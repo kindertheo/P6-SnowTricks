@@ -93,6 +93,26 @@ class User implements UserInterface
     private $comments;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $registrationToken;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $regTokenCreatedAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $forgotPassToken;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $forgotPassTokenCreatedAt;
+
+    /**
      * Initialise le slug
      *
      * @ORM\PrePersist()
@@ -372,6 +392,54 @@ class User implements UserInterface
                 $comment->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRegistrationToken(): ?string
+    {
+        return $this->registrationToken;
+    }
+
+    public function setRegistrationToken(?string $registrationToken): self
+    {
+        $this->registrationToken = $registrationToken;
+
+        return $this;
+    }
+
+    public function getRegTokenCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->regTokenCreatedAt;
+    }
+
+    public function setRegTokenCreatedAt(\DateTimeInterface $regTokenCreatedAt): self
+    {
+        $this->regTokenCreatedAt = $regTokenCreatedAt;
+
+        return $this;
+    }
+
+    public function getForgotPassToken(): ?string
+    {
+        return $this->forgotPassToken;
+    }
+
+    public function setForgotPassToken(?string $forgotPassToken): self
+    {
+        $this->forgotPassToken = $forgotPassToken;
+
+        return $this;
+    }
+
+    public function getForgotPassTokenCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->forgotPassTokenCreatedAt;
+    }
+
+    public function setForgotPassTokenCreatedAt(?\DateTimeInterface $forgotPassTokenCreatedAt): self
+    {
+        $this->forgotPassTokenCreatedAt = $forgotPassTokenCreatedAt;
 
         return $this;
     }

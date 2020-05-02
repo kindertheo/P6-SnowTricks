@@ -33,3 +33,4 @@ services:
     App\Service\PaginationCommentService:
         arguments:
             $templatePath: 'partials/pagination.html.twig'
+
