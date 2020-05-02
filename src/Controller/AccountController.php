@@ -13,11 +13,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AccountController extends AbstractController
@@ -204,4 +206,71 @@ class AccountController extends AbstractController
 
     }
 
+    /**
+     * @Route("/account/password_forgot_email/", name="account_mail_password_forgot")
+     * @param Request $request
+     * @param \Swift_Mailer $mailer
+     * @param EmailService $emailService
+     * @param EntityManagerInterface $manager
+     * @return RedirectResponse|Response
+     */
+    public function mailPasswordForgot(Request $request, \Swift_Mailer $mailer, EmailService $emailService, EntityManagerInterface $manager){
+        $form = $this->createFormBuilder()
+            ->add("email", EmailType::class)
+            ->getForm();
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid() ){
+            $user = $manager->getRepository(User::class)->findOneBy(['email' => $form['email']->getData()]);
+            if($user){
+                $emailService->sendForgotPassword($mailer, $user, $manager);
+
+                $this->addFlash("success", "Une demande de changement de mot de passe vient d'être envoyé sur votre adresse mail!");
+                return $this->redirectToRoute("account_login");
+            }else{
+                $this->addFlash("danger", "Nous n'avons pas trouvé votre adresse mail");
+                return $this->redirectToRoute("account_login");
+            }
+        }
+
+        return $this->render("account/password_forgot.html.twig", ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/account/password_forgot/{token}", name="account_password_forgot")
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param $token
+     * @param UserPasswordEncoderInterface $encoder
+     * @return Response
+     */
+    public function passwordForgot(Request $request, EntityManagerInterface $manager, $token, UserPasswordEncoderInterface $encoder){
+        $form = $this->createFormBuilder()
+            ->add("newPassword", PasswordType::class)
+            ->add("newPasswordConfirm", PasswordType::class)
+            ->getForm();
+        $form->handleRequest($request);
+
+        $user = $manager->getRepository(User::class)->findOneBy(['forgotPassToken' => $token]);
+        if(!$user){
+            $this->addFlash("danger", "Nous n'avons pas trouvé votre compte");
+            return $this->redirectToRoute("account_login");
+        }
+        if($form->isSubmitted() && $form->isValid() ){
+            if($form['newPassword']->getData() === $form['newPasswordConfirm']->getData()){
+                $password = $encoder->encodePassword($user, $form['newPassword']->getData());
+                $user->setPassword($password);
+                $user->setForgotPassToken(null);
+                $manager->persist($user);
+                $manager->flush();
+
+                $this->addFlash("success", "Votre mot de passe a bien été changé");
+                return $this->redirectToRoute("account_login");
+            }
+            $this->addFlash("danger", "Les mots de passes ne sont pas les mêmes");
+            return $this->redirect($request->getUri());
+        }
+
+        return $this->render("account/password_forgot.html.twig", ['form' => $form->createView()]);
+    }
 }
