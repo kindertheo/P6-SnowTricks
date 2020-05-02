@@ -13,25 +13,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class EmailService extends AbstractController
 {
 
-    public function sendEmailTest($name, \Swift_Mailer $mailer)
-    {
-        $message = (new \Swift_Message('Hello Email'))
-            ->setFrom('mail@blog.kindertheo.net')
-            ->setTo("kinder.theo@gmail.com")
-            ->setSubject("LE TEST")
-            ->setBody(
-                $this->renderView(
-                    'email/template.html.twig',
-                    ['name' => $name]
-                ),
-                'text/html'
-            )
-        ;
-        $mailer->send($message);
-
-        return $this->render("account/login.html.twig");
-    }
-
     public function sendRegistrationEmail(\Swift_Mailer $mailer, User $user, EntityManagerInterface $manager){
 
         $token = uuid_create(UUID_TYPE_RANDOM);
@@ -57,12 +38,40 @@ class EmailService extends AbstractController
                         'fullName' => $fullName,
                         'link' => $link,
                     ]
-                ),
-                'text/html'
+                )
             )
         ;
         $mailer->send($message);
 
         return true;
+    }
+
+    public function sendForgotPassword(\Swift_Mailer $mailer, User $user, EntityManagerInterface $manager){
+
+        $token = uuid_create(UUID_TYPE_RANDOM);
+        $user->setForgotPassToken($token)
+            ->setForgotPassTokenCreatedAt(new DateTime("+30 minutes"));
+
+        $manager->persist($user);
+        $manager->flush();
+
+        $emailTo = $user->getEmail();
+        $fullName = $user->getFullName();
+        $link = $this->generateUrl("account_password_forgot", ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
+        $message = (new \Swift_Message('Hello Email'))
+            ->setFrom('mail@blog.kindertheo.net')
+            ->setTo($emailTo)
+            ->setSubject("Mot de passe oublié SnowTricks")
+            ->setBody(
+                $this->renderView(
+                    'email/forgot_password.html.twig',
+                    [
+                        'fullName' => $fullName,
+                        'link' => $link,
+                    ]
+                )
+            )
+        ;
+        $mailer->send($message);
     }
 }
