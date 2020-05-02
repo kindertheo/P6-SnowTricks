@@ -14,23 +14,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TricksType extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {/*TODO Rectifier le placeholder du image upload*/
+    {/*TODO Ajouter catégorie*/
         $builder
             ->add('name', TextType::class, $this->getConfiguration("Nom du tricks", "Entrez le nom"))
             ->add('description', TextareaType::class, $this->getConfiguration("Description", "Entrez une description représentant le trick"))
-            ->add('main_image', FileType::class, $this->getConfiguration("Image principale", "Image principale", ['data_class' => null]))
-            ->add('images', CollectionType::class, array(
-                "entry_type"    => ImageType::class,
-                "allow_add"     => true,
-                "allow_delete"  => true,
-                'entry_options' => ['label' => false],
-            ))
-            ->add('video', CollectionType::class, array(
-                "entry_type" => VideoType::class,
-                "allow_add"  => true,
-                "allow_delete" => true,
-                'entry_options' => ['label' => false],
-            ))
+            ->add("mainImage", FileType::class);
         ;
     }
 
