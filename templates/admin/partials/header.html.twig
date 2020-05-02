@@ -10,7 +10,10 @@
                 <a class="nav-link" href="{{ path("home") }}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path("tricks_show") }}">Tricks</a>
+                <a class="nav-link" href="{{ path("tricks_show") }}">Liste des tricks</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path("tricks_add") }}">Ajouter un trick</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ path("admin_tricks") }}">Gestion des tricks</a>
@@ -18,20 +21,29 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ path("admin_comment") }}">Gestion des commentaires</a>
             </li>
-
-            {% if app.user is null %}
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path("account_login") }}">Sign in</a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ path("account_register") }}" class="nav-link">Register</a>
-            </li>
-            {% endif %}
-            {% if app.user %}
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path("account_logout") }}">Log out</a>
-            </li>
-            {% endif %}
         </ul>
+
+        <ul class="navbar-nav">
+            {% if app.user is null %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path("account_login") }}">Sign in</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path("account_register") }}" class="nav-link">Register</a>
+                </li>
+            {% elseif app.user %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="{{ asset(app.user.picture) }}" alt="Photo de profil de {{ app.user.fullName }}" class="profile-micro">
+                        Mon compte
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{{ path('user_profile', {'id': app.user.id }) }}">Mon profile</a>
+                        <a class="dropdown-item" href="{{ path('account_update_password') }}">Modifier mon mot de passe</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{{ path('account_logout') }}">Se déconnecter</a>
+                    </div>
+                </li>
+            {% endif %}
     </div>
 </nav>
