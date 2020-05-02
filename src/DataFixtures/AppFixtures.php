@@ -44,7 +44,7 @@ class AppFixtures extends Fixture
 
         $users = [];
         /* generate user*/
-        for($i= 0; $i <= 25; $i++){
+        for($i= 0; $i <= 10; $i++){
             $user = new User();
 
             $firstName = $faker->firstName(0);
@@ -74,7 +74,7 @@ class AppFixtures extends Fixture
 
         $tricks = [];
         /* generate tricks */
-        for($i = 1; $i <= 35; $i++){
+        for($i = 1; $i <= 15; $i++){
             $trick = new Tricks();
 
             $name = $faker->sentence(2);
@@ -92,7 +92,7 @@ class AppFixtures extends Fixture
         }
 
         /*generate comment*/
-        for($i = 1; $i <= 70; $i++){
+        for($i = 1; $i <= 100; $i++){
             $comment = new Comment();
             $comment->setContent($faker->paragraph())
                     ->setTricks($tricks[array_rand($tricks)])

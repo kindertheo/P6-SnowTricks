@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Comment;
 use App\Entity\Tricks;
 use App\Repository\CommentRepository;
+use App\Service\PaginationCommentService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -21,7 +22,7 @@ class AdminCommentController extends AbstractController
     public function index(CommentRepository $comment)
     {
         return $this->render('admin/admin_comment/index.html.twig', [
-            'comments' => $comment->findAll()
+            'comments' => $comment->findAll(),
         ]);
     }
 

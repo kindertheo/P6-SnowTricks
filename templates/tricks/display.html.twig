@@ -19,9 +19,9 @@
                     {% endif %}
                 </p>
                 <p>{{ tricks.description }}</p>
-                <p>Créer le {{ tricks.createdAt|date('d/m/Y à H:i') }}</p>
+                <p>Créer le {{ tricks.createdAt|date('d/m/Y à H:i') }} par {{ tricks.author.fullName }}</p>
                 {% if tricks.updatedAt %}
-                <p>Modifier le {{ tricks.updatedAt|date('d/m/Y à H:i') }}</p>
+                <p>Modifier le {{ tricks.updatedAt|date('d/m/Y à H:i') }} par {{ tricks.author.fullName }}</p>
                 {% endif %}
             </div>
         </div>
@@ -49,12 +49,12 @@
 
         <h2 class="h3">Commentaires</h2>
         <div class="row">
-                {% for comment in comments %}
+                {% for comment in pagination.data %}
                 <div class="col-12">
                     <div class="card border-secondary mb-3">
                         <div class="card-header">
                             <img src="{{ asset(comment.author.picture) }}" alt="Photo de profil" class="avatar-micro">
-                            {{ comment.author.firstName }} {{ comment.author.lastName }}
+                            {{ comment.author.fullName }}
                         </div>
                         <div class="card-body">
                             <p class="card-text">{{ comment.content }}</p>
@@ -64,6 +64,7 @@
                 </div>
                 <hr>
                 {% endfor %}
+            {{ pagination.display() }}
         </div>
         {% if app.user %}
         <h3>Ecrire un commentaire</h3>
