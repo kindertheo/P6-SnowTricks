@@ -103,6 +103,16 @@ class User implements UserInterface
     private $regTokenCreatedAt;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $forgotPassToken;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $forgotPassTokenCreatedAt;
+
+    /**
      * Initialise le slug
      *
      * @ORM\PrePersist()
@@ -406,6 +416,30 @@ class User implements UserInterface
     public function setRegTokenCreatedAt(\DateTimeInterface $regTokenCreatedAt): self
     {
         $this->regTokenCreatedAt = $regTokenCreatedAt;
+
+        return $this;
+    }
+
+    public function getForgotPassToken(): ?string
+    {
+        return $this->forgotPassToken;
+    }
+
+    public function setForgotPassToken(?string $forgotPassToken): self
+    {
+        $this->forgotPassToken = $forgotPassToken;
+
+        return $this;
+    }
+
+    public function getForgotPassTokenCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->forgotPassTokenCreatedAt;
+    }
+
+    public function setForgotPassTokenCreatedAt(?\DateTimeInterface $forgotPassTokenCreatedAt): self
+    {
+        $this->forgotPassTokenCreatedAt = $forgotPassTokenCreatedAt;
 
         return $this;
     }
