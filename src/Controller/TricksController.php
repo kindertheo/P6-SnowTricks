@@ -10,6 +10,7 @@ use App\Form\TricksUpdateType;
 use App\Repository\CommentRepository;
 use App\Repository\TricksRepository;
 use App\Service\ImageService;
+use App\Service\PaginationCommentService;
 use App\Service\UploadImgService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -37,16 +38,17 @@ class TricksController extends AbstractController
 
     /**
      * Page of one trick
-     * @Route("/tricks/{id}", name="tricks_display",  requirements={"id"="\d+"})
-     * @param TricksRepository $tricks
+     * @Route("/tricks/{id}/{page<\d+>?1}", name="tricks_display",  requirements={"id"="\d+"})
+     * @param Tricks $tricks
      * @param CommentRepository $comment
      * @param Request $request
      * @param EntityManagerInterface $manager
-     * @param $id
+     * @param PaginationCommentService $paginationService
+     * @param $page
      * @return Response
      */
     /*TODO Créer un service de pagination !*/
-    public function display(TricksRepository $tricks, CommentRepository $comment, Request $request, EntityManagerInterface $manager, $id){
+    public function display(Tricks $tricks, CommentRepository $comment, Request $request, EntityManagerInterface $manager, PaginationCommentService $paginationService, $page){
         //create form for comment
         $newComment = new Comment();
         $form = $this->createForm(CommentType::class, $newComment);
@@ -56,23 +58,30 @@ class TricksController extends AbstractController
         if($form->isSubmitted() && $form->isValid() && $this->getUser()){
             /*Ajoute l'utilisateur et le trick au commentaire*/
             $newComment->setAuthor($this->getUser())
-                    ->setTricks($tricks->findOneById($id));
+                       ->setTricks($tricks);
 
             $manager->persist($newComment);
             $manager->flush();
 
             $this->addFlash("success", "Le commentaire a bien été ajouté!");
             /*Affiche la vue avec l'ajout du commentaire*/
-            return $this->redirectToRoute("tricks_display", ['id' => $id]);
+            return $this->redirectToRoute("tricks_display", ['id' => $tricks->getId()]);
         }
+
+        $paginationService->setEntityClass(Comment::class)
+            ->setLimit(3)
+            ->setPage($page)
+            ->setEntityClassId($tricks->getId())
+            ->setTricks($tricks);
 
         /*Affiche la vue du trick*/
         return $this->render("tricks/display.html.twig", [
-            'tricks' => $tricks->findOneById($id),
+            'tricks' => $tricks,
             'comments' => $comment->findBy([
-                'tricks' => $id
+                'tricks' => $tricks
             ]),
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'pagination' => $paginationService
         ]);
     }
 
@@ -92,23 +101,23 @@ class TricksController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            /*TODO Corriger ces deux lignes*/
+            /*Upload l'image et l'ajoute comme main image*/
             $uploadImgService->upload($form['mainImage']->getData());
             $tricks->setMainImage("img/".$uploadImgService->getFileNameMainImage());
+            /*Lie l'utilisateur au tricks*/
             $tricks->setAuthor($this->getUser());
 
             /*Persiste et ajoute à la bdd*/
             $manager->persist($tricks);
             $manager->flush();
 
-            $this->addFlash("success", "Le tricks a bien été ajouté!");
-
+            $this->addFlash("success", "Ajoutez des images et des vidéos au tricks");
+            /*Redirige vers la page de modification pour qu'il ajoute des images et des vidéos*/
             return $this->redirectToRoute("tricks_update", ['id' => $tricks->getId()]);
         }
         elseif($form->getErrors(true, false)->count() > 0){
 
             $this->addFlash("danger", $form->getErrors(true));
-
             return $this->redirectToRoute("tricks_show");
         }
 
@@ -126,7 +135,6 @@ class TricksController extends AbstractController
      * @param ImageService $imageService
      * @return RedirectResponse
      */
-    /*TODO Delete image */
     public function delete(Tricks $tricks, EntityManagerInterface $manager, ImageService $imageService){
         /*Delete images in directory */
         $imageService->deleteAllImageFromTrick($tricks);
