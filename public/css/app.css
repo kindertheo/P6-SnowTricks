@@ -32,3 +32,30 @@ img.profile-micro {
     max-width: 30px;
     border-radius: 50%;
 }
+.card {
+    border-radius: 0.625em;
+}
+.card-img-top {
+    height: 40vh;
+    border-top-left-radius: 0.625em;
+    border-top-right-radius: 0.625em;
+}
+
+.home-bg {
+    background-image: url("/img/homepage.jpg");
+    background-size:cover;
+    background-repeat: no-repeat;
+    height:100vh;
+    width:100%;
+}
+
+.home-link-top{
+    position:absolute;
+    bottom:0;
+    right:15px;
+}
+
+.home-link-bottom{
+    position:absolute;
+    right:15px;
+}
