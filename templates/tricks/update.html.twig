@@ -12,10 +12,11 @@
                 <div class="alert alert-light">
                     {{ form_row(form.name) }}
                     {{ form_row(form.description) }}
+                    {{ form_row(form.category) }}
                         <div class="row p-5">
                             <img src="{{ asset(tricks.mainImage) }}" class="tricks " alt="Image de couverture de {{ tricks.name }}">
                         </div>
-                    <a type="button" href="{{ path("tricks_update_image_add", {'id': tricks.id, 'main': true}) }}" class="btn btn-success">Changer l'image principale</a>
+                    <a type="button" href="{{ path("tricks_update_image_add", {'slug': tricks.slug, 'main': true}) }}" class="btn btn-success">Changer l'image principale</a>
 
                     <div class="row p-5">
                         {% for image in tricks.images %}
@@ -23,14 +24,14 @@
                             <a id="deleteMedia_{{ image.id }}" href="{{ path('tricks_update_image_delete', {'slug': tricks.slug, 'id': image.id}) }}"><i class="fas fa-trash-alt"></i></a>
                         {% endfor %}
                         </div>
-                    <a type="button" href="{{ path("tricks_update_image_add", {'id': tricks.id}) }}" class="btn btn-success">Ajouter une image</a>
+                    <a type="button" href="{{ path("tricks_update_image_add", {'slug': tricks.slug}) }}" class="btn btn-success">Ajouter une image</a>
                     <div class="row p-5">
                         {% for video in tricks.videos %}
                             <iframe width="420" height="315" src="{{ video.video }}" frameborder="0" allowfullscreen="" id="deleteMediaVideo_"></iframe>
                             <a id="deleteMediaVideo_{{ video.id }}" href="{{ path('tricks_update_video_delete', {'slug': tricks.slug, 'id': video.id}) }}"><i class="fas fa-trash-alt"></i></a>
                         {% endfor %}
                     </div>
-                    <a type="button" href="{{ path("tricks_update_video_add", {'id': tricks.id}) }}" class="btn btn-success">Ajouter une vidéo</a>
+                    <a type="button" href="{{ path("tricks_update_video_add", {'slug': tricks.slug}) }}" class="btn btn-success">Ajouter une vidéo</a>
                 </div>
                 <button type="submit" class="btn btn-success">Modifier le tricks</button>
                 </div>

@@ -24,7 +24,7 @@
                     <td>{{ comment.content }}</td>
                     <td>{{ comment.date|date('d/m/Y H:i') }}</td>
                     <td>
-                        <a href="{{ path('tricks_display', {'id':comment.tricks.id}) }}">{{ comment.tricks.name }}</a>
+                        <a href="{{ path('tricks_display', {'slug':comment.tricks.slug}) }}">{{ comment.tricks.name }}</a>
                     </td>
                     <td>
                         <a href="{{ path('admin_comment_delete', {'id':comment.id}) }}">Supprimer</a>

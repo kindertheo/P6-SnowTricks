@@ -38,11 +38,11 @@
                             {% endfor %}
                         </td>
                         <td>
-                            <a href="{{ path("user_profile", {'id' : trick.author.id}) }}">{{ trick.author.lastName }}</a>
+                            <a href="{{ path("user_profile", {'id' : trick.author.id}) }}">{{ trick.author.fullName }}</a>
                         </td>
                         <td>
-                            <a href="{{ path('tricks_update', {'id':trick.id}) }}">Editer</a>
-                            <a href="{{ path('admin_tricks_delete', {'id':trick.id}) }}">Supprimer</a>
+                            <a href="{{ path('tricks_update', {'slug' : trick.slug}) }}">Editer</a>
+                            <a href="{{ path('admin_tricks_delete', {'id' : trick.id}) }}">Supprimer</a>
                         </td>
                     </tr>
                 {% endfor %}

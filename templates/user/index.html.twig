@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Page de profile de {{ user.firstName }} {{ user.lastName }}{% endblock %}
+{% block title %}Page de profile de {{ user.fullName }}{% endblock %}
 
 {% block body %}
     <div class="container">
@@ -14,7 +14,7 @@
                 {% endif %}
             </div>
             <div class="col">
-                <img src="{{ user.picture }}" alt="Image de {{ user.firstName }} {{ user.lastName }}" class="img-thumbnail mb-5">
+                <img src="{{ asset(user.picture) }}" alt="Image de {{ user.firstName }} {{ user.lastName }}" class="img-thumbnail mb-5">
                 <p>Adresse email : <br>
                     {{ user.email }}</p>
             </div>
