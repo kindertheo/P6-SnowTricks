@@ -8,6 +8,7 @@ use App\Form\PasswordUpdateType;
 use App\Form\RegisterType;
 use App\Form\UpdateProfileType;
 use App\Service\EmailService;
+use App\Service\UploadImgService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -21,17 +22,33 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AccountController extends AbstractController
 {
+    /*TODO REFAIRE UML + JEU DE DONNEES
+    TODO TEST UNITAIRE*/
+    /*TODO SUPPORT PRESENTATION*/
     /**
      * Affiche et gère le formulaire de connexion
      * @Route("/account/login", name="account_login")
+     * @param AuthenticationUtils $authenticationUtils
+     * @return Response
      */
-    public function login()
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        return $this->render('account/login.html.twig', [
-        ]);
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        if($error){
+            $this->addFlash("danger", 'Identifiants incorrects');
+        }
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('account/login.html.twig',
+            [
+                'username' => $lastUsername
+            ]);
     }
 
     /**
@@ -142,9 +159,10 @@ class AccountController extends AbstractController
      * @IsGranted("ROLE_USER")
      * @param EntityManagerInterface $manager
      * @param Request $request
+     * @param UploadImgService $uploadImgService
      * @return Response
      */
-    public function update(EntityManagerInterface $manager, Request $request){
+    public function update(EntityManagerInterface $manager, Request $request, UploadImgService $uploadImgService){
         $user = $this->getUser();
 
         $form = $this->createForm(UpdateProfileType::class, $user);
@@ -152,6 +170,11 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            if(!empty($form['picture']->getData())){
+                $filename = $uploadImgService->upload($form['picture']->getData(), "img/profile/");
+                $user->setPicture($filename);
+            }
+
             $manager->persist($user);
             $manager->flush();
 

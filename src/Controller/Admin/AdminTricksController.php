@@ -34,7 +34,7 @@ class AdminTricksController extends AbstractController
      * @return RedirectResponse
      */
     public function delete(Tricks $tricks, EntityManagerInterface $manager){
-        $name = $tricks->getId();
+        $name = $tricks->getName();
 
         $manager->remove($tricks);
         $manager->flush();

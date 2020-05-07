@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ImageController extends AbstractController
 {
     /**
-     * @Route("/tricks/{id}/update/image/add/{main?}", name="tricks_update_image_add")
+     * @Route("/tricks/{slug}/update/image/add/{main?}", name="tricks_update_image_add")
      * @param Request $request
      * @param Tricks $tricks
      * @param ImageService $imageService
@@ -39,10 +39,10 @@ class ImageController extends AbstractController
 
             }
 
-            return $this->redirectToRoute("tricks_update", ['id' => $tricks->getId()]);
+            return $this->redirectToRoute("tricks_update", ['slug' => $tricks->getSlug()]);
         }elseif($form->getErrors(true, false)->count() > 0){
             $this->addFlash("danger", $form->getErrors(true));
-            return $this->redirectToRoute("tricks_update", ['id' => $tricks->getId()]);
+            return $this->redirectToRoute("tricks_update", ['slug' => $tricks->getSlug()]);
         }
 
         return $this->render("tricks/add_image.html.twig",
@@ -58,9 +58,9 @@ class ImageController extends AbstractController
      */
     public function delete(Image $image, ImageService $imageService)
     {
-        $id = $image->getTricks()->getId();
+        $slug = $image->getTricks()->getSlug();
         $imageService->deleteImage($image);
 
-        return $this->redirectToRoute('tricks_update', ['id' => $id]);
+        return $this->redirectToRoute('tricks_update', ['slug' => $slug]);
     }
 }
