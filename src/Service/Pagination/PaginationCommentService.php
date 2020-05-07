@@ -142,6 +142,26 @@ class PaginationCommentService {
         return ceil($total / $this->limit);
     }
 
+
+    public function getAll(): array
+    {
+        if(empty($this->entityClass)) {
+            // Si il n'y a pas d'entité configurée, on ne peut pas charger le repository, la fonction
+            // ne peut donc pas continuer !
+            throw new \Exception("Vous n'avez pas spécifié l'entité sur laquelle nous devons paginer ! Utilisez la méthode setEntityClass() de votre objet PaginationCommentService !");
+        }
+
+        // 1) Connaitre le total des enregistrements de la table
+        $total = $this->manager
+            ->getRepository($this->entityClass)
+            ->findBy(['tricks' => $this->tricks])
+        ;
+
+        // 2) Faire la division, l'arrondi et le renvoyer
+        return $total;
+    }
+
+
     /**
      * Permet de récupérer les données paginées pour une entité spécifique
      *
@@ -265,15 +285,6 @@ class PaginationCommentService {
         $this->route = $route;
 
         return $this;
-    }
-
-    /**
-     * Permet de récupérer le nom de la route qui sera utilisé sur les liens de la navigation
-     *
-     * @return string
-     */
-    public function getRoute(): string {
-        return $route;
     }
 
     public function setEntityClassId(string $entityClassId): self {
