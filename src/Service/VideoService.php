@@ -35,10 +35,10 @@ class VideoService extends AbstractController
 
     public function deleteVideo(Video $video)
     {
-        $id = $video->getTricks()->getId();
+        $slug = $video->getTricks()->getSlug();
         $this->entityManager->remove($video);
         $this->entityManager->flush();
 
-        return $this->redirectToRoute("tricks_update", ['id' => $id]);
+        return $this->redirectToRoute("tricks_update", ['slug' => $slug]);
     }
 }

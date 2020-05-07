@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Pagination;
 
 use App\Entity\Tricks;
 use Doctrine\ORM\EntityManagerInterface;
@@ -63,7 +63,7 @@ class PaginationCommentService {
      */
     private $templatePath;
 
-    private $entityClassId;
+    private $entitySlug;
 
     private $tricks;
 
@@ -109,7 +109,7 @@ class PaginationCommentService {
             'page' => $this->currentPage,
             'pages' => $this->getPages(),
             'route' => $this->route,
-            'entityId' => $this->entityClassId
+            'entitySlug' => $this->entitySlug
         ]);
     }
 
@@ -287,13 +287,13 @@ class PaginationCommentService {
         return $this;
     }
 
-    public function setEntityClassId(string $entityClassId): self {
-        $this->entityClassId = $entityClassId;
+    public function setEntitySlug(string $entitySlug): self {
+        $this->entitySlug = $entitySlug;
 
         return $this;
     }
 
-    public function getEntityClassId(string $entityClassId): string {
+    public function getEntitySlug(string $entityClassId): string {
         return $entityClassId;
     }
 
