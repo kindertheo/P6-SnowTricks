@@ -3,9 +3,11 @@
 namespace App\DataFixtures;
 
 use App\Entity\Comment;
+use App\Entity\Image;
 use App\Entity\Role;
 use App\Entity\Tricks;
 use App\Entity\User;
+use App\Entity\Video;
 use Cocur\Slugify\Slugify;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -79,9 +81,10 @@ class AppFixtures extends Fixture
 
             $name = $faker->sentence(2);
             $slug = $slugify->slugify($name);
-            $image = "img/tricks".mt_rand(1,5).".jpg";
+            $image = "img/tricks".mt_rand(1,6).".jpg";
 
             $trick->setName($name)
+                ->setCategory("360")
                 ->setDescription($faker->paragraph())
                 ->setMainImage($image)
                 ->setAuthor($users[mt_rand(0, $count - 1)]);
@@ -89,6 +92,27 @@ class AppFixtures extends Fixture
             $tricks[] = $trick;
 
             $manager->persist($trick);
+        }
+
+        /*generate images for tricks*/
+        for($i= 1; $i<= 100; $i++){
+            $image = new Image();
+            $image->setPath("img/tricks".mt_rand(1,5).".jpg")
+                ->setName("random")
+                ->setImage("image")
+                ->setTricks($tricks[mt_rand(0, count($tricks)-1)]);
+            $manager->persist($image);
+            $manager->flush();
+        }
+
+        /*generate videos for tricks*/
+        for($i= 1; $i<= 25; $i++){
+            $image = new Video();
+            $image->setVideo("https://www.youtube.com/embed/SQyTWk7OxSI")
+                ->setName("name")
+                ->setTricks($tricks[mt_rand(0, count($tricks)-1)]);
+            $manager->persist($image);
+            $manager->flush();
         }
 
         /*generate comment*/
