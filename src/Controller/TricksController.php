@@ -119,7 +119,7 @@ class TricksController extends AbstractController
             ->setTricks($tricks);
 
         /*Affiche la vue du trick*/
-        return $this->render("tricks/display2.html.twig", [
+        return $this->render("tricks/display.html.twig", [
             'tricks' => $tricks,
             'comments' => $comment->findBy([
                 'tricks' => $tricks
