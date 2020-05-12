@@ -22,7 +22,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TricksController extends AbstractController
 {
-    /*TODO Routing selon le slug et non l'id!*/
     /**
      * List of tricks
      * @Route("/tricks", name="tricks_show")

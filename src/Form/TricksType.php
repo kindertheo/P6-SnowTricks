@@ -14,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TricksType extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {/*TODO Ajouter catégorie*/
+    {
         $builder
             ->add('name', TextType::class, $this->getConfiguration("Nom du tricks", "Entrez le nom"))
             ->add('description', TextareaType::class, $this->getConfiguration("Description", "Entrez une description représentant le trick"))

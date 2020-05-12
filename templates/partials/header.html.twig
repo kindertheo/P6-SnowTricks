@@ -47,7 +47,6 @@
                     </li>
                 {% elseif app.user %}
                     <li class="nav-item dropdown">
-                        {# TODO download user picture to a directory #}
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img src="{{ asset(app.user.picture) }}" alt="Photo de profil de {{ app.user.fullName }}" class="profile-micro">
                             Mon compte
