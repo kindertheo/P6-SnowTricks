@@ -17,12 +17,15 @@ class UploadImgService
         $this->targetDirectory = $targetDirectory;
     }
 
-    public function upload(UploadedFile $file)
+    public function upload(UploadedFile $file, $path = null)
     {
         $fileName = md5(uniqid()).'.'.$file->guessExtension();
-
-        $file->move($this->getTargetDirectory(), $fileName);
-
+        if($path){
+            $file->move($path, $fileName);
+        }else{
+            $file->move($this->getTargetDirectory(), $fileName);
+        }
+        $fileName = $path . $fileName;
         $this->fileNameMainImage = $fileName;
         return $fileName;
     }

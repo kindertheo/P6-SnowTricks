@@ -7,29 +7,51 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{{ path("home") }}">Home</a>
+                <a class="nav-link" href="{{ path("home") }}">
+                    <i class="fas fa-home"></i>
+                    Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path("tricks_show") }}">Liste des tricks</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ path("tricks_add") }}">Ajouter un trick</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path("admin_tricks") }}">Gestion des tricks</a>
+                <a class="nav-link" href="{{ path("tricks_show") }}">
+                    <i class="fas fa-list"></i>
+                    Liste des tricks
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path("admin_comment") }}">Gestion des commentaires</a>
+                <a class="nav-link" href="{{ path("tricks_add") }}">
+                    <i class="fas fa-plus"></i>
+                    Ajouter un trick</a>
+            </li>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item">
+                    <a href="{{ path("admin_index") }}" class="nav-link">
+                        <i class="fas fa-chart-line"></i>
+                        Admin Dashboard</a>
+                </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path("admin_tricks") }}">
+                    <i class="fas fa-snowboarding"></i>
+                    Gestion des tricks</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path("admin_comment") }}">
+                    <i class="fas fa-comment"></i>
+                    Gestion des commentaires</a>
             </li>
         </ul>
 
         <ul class="navbar-nav">
             {% if app.user is null %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path("account_login") }}">Sign in</a>
+                    <a class="nav-link" href="{{ path("account_login") }}">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Sign in</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ path("account_register") }}" class="nav-link">Register</a>
+                    <a href="{{ path("account_register") }}" class="nav-link">
+                        <i class="fas fa-user-plus"></i>
+                        Register</a>
                 </li>
             {% elseif app.user %}
                 <li class="nav-item dropdown">
@@ -38,10 +60,16 @@
                         Mon compte
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="{{ path('user_profile', {'id': app.user.id }) }}">Mon profile</a>
-                        <a class="dropdown-item" href="{{ path('account_update_password') }}">Modifier mon mot de passe</a>
+                        <a class="dropdown-item" href="{{ path('user_profile', {'id': app.user.id }) }}">
+                            <i class="fas fa-user"></i>
+                            Mon profile</a>
+                        <a class="dropdown-item" href="{{ path('account_update_password') }}">
+                            <i class="fas fa-lock"></i>
+                            Modifier mon mot de passe</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{{ path('account_logout') }}">Se déconnecter</a>
+                        <a class="dropdown-item" href="{{ path('account_logout') }}">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Se déconnecter</a>
                     </div>
                 </li>
             {% endif %}

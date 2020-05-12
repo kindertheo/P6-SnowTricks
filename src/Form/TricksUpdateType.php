@@ -13,14 +13,15 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TricksUpdateType extends AbstractType
+class TricksUpdateType extends ApplicationType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class)
-            ->add('description', TextareaType::class);
+            ->add('name', TextType::class, $this->getConfiguration("Nom", "Nom du trick"))
+            ->add('description', TextareaType::class, $this->getConfiguration("Description", "Entrez une description"))
+            ->add('category', TextType::class, $this->getConfiguration("Catégorie", "Entrez une catégorie"));
     }
 
     public function configureOptions(OptionsResolver $resolver)

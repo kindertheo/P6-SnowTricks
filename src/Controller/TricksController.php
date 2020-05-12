@@ -10,7 +10,7 @@ use App\Form\TricksUpdateType;
 use App\Repository\CommentRepository;
 use App\Repository\TricksRepository;
 use App\Service\ImageService;
-use App\Service\PaginationCommentService;
+use App\Service\Pagination\PaginationCommentService;
 use App\Service\UploadImgService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -22,7 +22,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TricksController extends AbstractController
 {
-    /*TODO Routing selon le slug et non l'id!*/
     /**
      * List of tricks
      * @Route("/tricks", name="tricks_show")
@@ -31,57 +30,9 @@ class TricksController extends AbstractController
      */
     public function index(TricksRepository $tricks)
     {
+
         return $this->render('tricks/index.html.twig', [
-            'tricks' => $tricks->findAll()
-        ]);
-    }
-
-    /**
-     * Page of one trick
-     * @Route("/tricks/{id}/{page<\d+>?1}", name="tricks_display",  requirements={"id"="\d+"})
-     * @param Tricks $tricks
-     * @param CommentRepository $comment
-     * @param Request $request
-     * @param EntityManagerInterface $manager
-     * @param PaginationCommentService $paginationService
-     * @param $page
-     * @return Response
-     */
-    /*TODO Créer un service de pagination !*/
-    public function display(Tricks $tricks, CommentRepository $comment, Request $request, EntityManagerInterface $manager, PaginationCommentService $paginationService, $page){
-        //create form for comment
-        $newComment = new Comment();
-        $form = $this->createForm(CommentType::class, $newComment);
-
-        $form->handleRequest($request);
-        /*Formulaire des commentaires*/
-        if($form->isSubmitted() && $form->isValid() && $this->getUser()){
-            /*Ajoute l'utilisateur et le trick au commentaire*/
-            $newComment->setAuthor($this->getUser())
-                       ->setTricks($tricks);
-
-            $manager->persist($newComment);
-            $manager->flush();
-
-            $this->addFlash("success", "Le commentaire a bien été ajouté!");
-            /*Affiche la vue avec l'ajout du commentaire*/
-            return $this->redirectToRoute("tricks_display", ['id' => $tricks->getId()]);
-        }
-
-        $paginationService->setEntityClass(Comment::class)
-            ->setLimit(3)
-            ->setPage($page)
-            ->setEntityClassId($tricks->getId())
-            ->setTricks($tricks);
-
-        /*Affiche la vue du trick*/
-        return $this->render("tricks/display.html.twig", [
-            'tricks' => $tricks,
-            'comments' => $comment->findBy([
-                'tricks' => $tricks
-            ]),
-            'form' => $form->createView(),
-            'pagination' => $paginationService
+            'tricks' => $tricks->findAll(),
         ]);
     }
 
@@ -113,7 +64,7 @@ class TricksController extends AbstractController
 
             $this->addFlash("success", "Ajoutez des images et des vidéos au tricks");
             /*Redirige vers la page de modification pour qu'il ajoute des images et des vidéos*/
-            return $this->redirectToRoute("tricks_update", ['id' => $tricks->getId()]);
+            return $this->redirectToRoute("tricks_update", ['slug' => $tricks->getSlug()]);
         }
         elseif($form->getErrors(true, false)->count() > 0){
 
@@ -127,9 +78,59 @@ class TricksController extends AbstractController
         ]);
     }
 
+
+    /**
+     * Page of one trick
+     * @Route("/tricks/{slug}/{page<\d+>?1}", name="tricks_display",  requirements={"id"="\d+"})
+     * @param Tricks $tricks
+     * @param CommentRepository $comment
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param PaginationCommentService $paginationService
+     * @param $page
+     * @return Response
+     */
+    /*TODO Créer un service de pagination !*/
+    public function display(Tricks $tricks, CommentRepository $comment, Request $request, EntityManagerInterface $manager, PaginationCommentService $paginationService, $page){
+        //create form for comment
+        $newComment = new Comment();
+        $form = $this->createForm(CommentType::class, $newComment);
+
+        $form->handleRequest($request);
+        /*Formulaire des commentaires*/
+        if($form->isSubmitted() && $form->isValid() && $this->getUser()){
+            /*Ajoute l'utilisateur et le trick au commentaire*/
+            $newComment->setAuthor($this->getUser())
+                       ->setTricks($tricks);
+
+            $manager->persist($newComment);
+            $manager->flush();
+
+            $this->addFlash("success", "Le commentaire a bien été ajouté!");
+            /*Affiche la vue avec l'ajout du commentaire*/
+            return $this->redirectToRoute("tricks_display", ['slug' => $tricks->getSlug()]);
+        }
+
+        $paginationService->setEntityClass(Comment::class)
+            ->setLimit(3)
+            ->setPage($page)
+            ->setEntitySlug($tricks->getSlug())
+            ->setTricks($tricks);
+
+        /*Affiche la vue du trick*/
+        return $this->render("tricks/display.html.twig", [
+            'tricks' => $tricks,
+            'comments' => $comment->findBy([
+                'tricks' => $tricks
+            ]),
+            'form' => $form->createView(),
+            'pagination' => $paginationService
+        ]);
+    }
+
     /**
      * @IsGranted("ROLE_USER")
-     * @Route("/tricks/{id}/delete", name="tricks_delete",  requirements={"id"="\d+"})
+     * @Route("/tricks/{slug}/delete", name="tricks_delete",  requirements={"id"="\d+"})
      * @param Tricks $tricks
      * @param EntityManagerInterface $manager
      * @param ImageService $imageService
@@ -148,7 +149,7 @@ class TricksController extends AbstractController
 
     /**
      * @IsGranted("ROLE_USER")
-     * @Route("tricks/{id}/update", name="tricks_update",  requirements={"id"="\d+"})
+     * @Route("tricks/{slug}/update", name="tricks_update",  requirements={"id"="\d+"})
      * @param Tricks $tricks
      * @param EntityManagerInterface $manager
      * @param Request $request
@@ -167,7 +168,7 @@ class TricksController extends AbstractController
 
             $this->addFlash("success", "Le tricks a bien été modifié!");
 
-            return $this->redirectToRoute("tricks_display", ['id' => $tricks->getId()]);
+            return $this->redirectToRoute("tricks_display", ['slug' => $tricks->getSlug()]);
         }
 
         return $this->render("tricks/update.html.twig", ['form' => $form->createView(), 'tricks' => $tricks]);

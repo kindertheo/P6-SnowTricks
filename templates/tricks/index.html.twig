@@ -5,29 +5,14 @@
 {% block body %}
 
     <div class="container">
-        <h1 class="pb-5 text-center">Liste des différents tricks</h1>
+        <h1 class="h2 pb-5 text-center">Liste des différents tricks</h1>
         <div class="row">
             {% for trick in tricks %}
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
-                    <div class="card text-center">
-                        <a href="{{ path("tricks_display", {id : trick.id }) }}" >
-                            <div class="card-title text-center">
-                                {{ trick.name }}
-                                {% if app.user %}
-                                    <a href="{{ path("tricks_update", {'id' : trick.id}) }}">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="{{ path("tricks_delete", {'id': trick.id}) }}">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                {% endif %}
-                            </div>
-                            <img class="img-thumbnail tricks" src="{{ asset(trick.mainimage) }}" alt="Tricks 5">
-                            <p>{{ trick.description }}</p>
-                        </a>
-                    </div>
-                </div>
+                {% include 'tricks/_tricks.html.twig' %}
             {% endfor %}
         </div>
     </div>
+
+    {# ajouté pagination #}
+    {# TODO  pagination selon des critères style Nombre de commentaire#}
 {% endblock %}

@@ -57,7 +57,7 @@ class ImageService extends AbstractController
 
         $this->entityManager->flush();
 
-        return $this->redirectToRoute("tricks_update", ['id' => $tricks->getId()]);
+        return;
     }
 
     /*Delete image in db and in directory*/

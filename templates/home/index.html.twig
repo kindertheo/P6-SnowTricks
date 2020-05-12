@@ -4,25 +4,73 @@
 
 {% block body %}
 
-    <div class="container-fluid">
-        <img class="img-fluid homepage" src="{{ asset("img/homepage.jpg") }}" alt="Homepage">
+    <div class="home-bg bg">
+        <a href="#tricks-title" class="home-link-top" title="Aller en bas de la page">
+            <i class="fas fa-chevron-down fa-3x chevron-down"></i>
+        </a>
     </div>
 
-    <div class="container-fluid">
-        <h1 class="h3 text-center">Liste des tricks</h1>
+    <div class="container">
+        <h1 id="tricks-title" class="h3 text-center mb-5">Liste des tricks</h1>
 
         <div class="row">
             {% for trick in tricks %}
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
-                    <div class="card">
-                        <a href="{{ path("tricks_display", {id : trick.id }) }}" >
-                            <div class="card-title text-center">{{ trick.name }}</div>
-                            <img class="img-thumbnail tricks" src="{{ asset(trick.Mainimage) }}" alt="Tricks 5">
-                        </a>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 trick">
+                    <div class="card card-tricks mb-3 {% if loop.index > 8 %} hidden-tricks" style="display:none;"{% endif %}">
+                        <img class="card-img-top" src="{{ asset(trick.Mainimage) }}" alt="{{ trick.name }}">
+                        <div class="card-body">
+                            <div class="card-link text-center">
+                                <a  class="btn btn-outline-primary mt-3" href="{{ path("tricks_display", {'slug' : trick.slug }) }}" >{{ trick.name }}</a>
+                            </div>
+                            {% if app.user %}
+                                <div class="mt-1 text-center">
+                                    <a href="{{ path("tricks_update", {'slug' : trick.slug}) }}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{{ path("tricks_delete", {'slug' : trick.slug}) }}">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+
                     </div>
                 </div>
             {% endfor %}
         </div>
+        <div class="row d-flex justify-content-center">
+            <div class="btn btn-info" id="loadMoreTrick" >+</div>
+            <div class="btn btn-info" id="loadLessTrick" style="display:none" >-</div>
+        </div>
+
+        <a href="#tricks-title" class="home-link-bottom" title="Aller en haut de la page">
+            <i class="fas fa-chevron-up fa-3x chevron-up"></i>
+        </a>
 
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+
+        $('#loadMoreTrick').click(function(){
+            $('.hidden-tricks').css({
+                display:'inherit'
+            })
+            $("#loadMoreTrick").hide('slow');
+            $("#loadLessTrick").show('slow');
+        })
+
+        $('#loadLessTrick').click(function() {
+            $('.hidden-tricks').css({
+                display:'none'
+            })
+            $("#loadMoreTrick").show('slow');
+            $("#loadLessTrick").hide('slow');
+        })
+
+    </script>
+
 {% endblock %}

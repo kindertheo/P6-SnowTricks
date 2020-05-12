@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class VideoController extends AbstractController
 {
     /**
-     * @Route("/tricks/{id}/update/video/add", name="tricks_update_video_add")
+     * @Route("/tricks/{slug}/update/video/add", name="tricks_update_video_add")
      * @param Tricks $tricks
      * @param Request $request
      * @param VideoService $videoService
@@ -32,7 +32,7 @@ class VideoController extends AbstractController
 
             $this->addFlash('success', 'Vidéo ajoutée');
 
-            return $this->redirectToRoute("tricks_update", ['id' => $tricks->getId()]);
+            return $this->redirectToRoute("tricks_update", ['slug' => $tricks->getSlug()]);
         }
 
         return $this->render("tricks/add_video.html.twig",
@@ -47,11 +47,11 @@ class VideoController extends AbstractController
      */
     public function delete(Video $video, VideoService $videoService)
     {
-        $id = $video->getTricks()->getId();
+        $slug = $video->getTricks()->getSlug();
         $videoService->deleteVideo($video);
 
         $this->addFlash("warning", "Vidéo supprimée");
 
-        return $this->redirectToRoute("tricks_update", ['id' => $id]);
+        return $this->redirectToRoute("tricks_update", ['slug' => $slug]);
     }
 }
