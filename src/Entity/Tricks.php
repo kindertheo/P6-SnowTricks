@@ -28,13 +28,13 @@ class Tricks
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=8, minMessage="Le nom doit être plus long")
+     * @Assert\Length(min=8, minMessage="Le nom doit être plus long", allowEmptyString="false")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\Length(min=25, minMessage="La description doit être plus longue")
+     * @Assert\Length(min=25, minMessage="La description doit être plus longue", allowEmptyString="false")
      */
     private $description;
 
