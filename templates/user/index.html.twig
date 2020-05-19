@@ -72,7 +72,8 @@
                                 <td>{{ comment.content|slice(0,50) }} ...</td>
                                 <td>{{ comment.date|date('d/m/Y H:i') }}</td>
                                 <td>
-                                    <a href="{{ path('tricks_display', {'slug': comment.tricks.slug}) }}" class="btn btn-primary">Voir </a>
+                                    <a href="{{ path('tricks_display', {'slug': comment.tricks.slug}) }}" class="btn btn-primary">Voir</a>
+                                    <a href="{{ path('comment_delete', {'id': comment.id}) }}" class="btn btn-danger">Supprimer</a>
                                 </td>
                             </tr>
                         {% endfor %}
