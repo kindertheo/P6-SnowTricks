@@ -145,7 +145,9 @@ class User implements UserInterface
      *
      */
     public function initializePicture(){
-        $this->picture = 'img/profile/default_profile.jpg';
+        if(empty($this->picture)){
+            $this->picture = 'img/profile/default_profile.jpg';
+        }
     }
 
 
