@@ -19,7 +19,6 @@ class RegisterType extends ApplicationType
             ->add('firstName', TextType::class, $this->getConfiguration("Prénom", "Prénom"))
             ->add('lastName', TextType::class, $this->getConfiguration("Nom de famille", "Nom de famille"))
             ->add('email', EmailType::class, $this->getConfiguration("Adresse email", "Adresse email"))
-            ->add('picture', UrlType::class, $this->getConfiguration("Lien vers votre image de profil", "Photo de profil"))
             ->add('password', PasswordType::class, $this->getConfiguration("Mot de passe", "Mot de passe"))
             ->add('passwordConfirm', PasswordType::class, $this->getConfiguration("Confirmation de mot de passe", "Confirmez votre mot de passe"))
             ->add('introduction', TextareaType::class, $this->getConfiguration("Introduction",

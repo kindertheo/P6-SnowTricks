@@ -38,7 +38,7 @@ class ImageController extends AbstractController
                 $imageService->addImage($image, $tricks, $imageFile);
 
             }
-
+            $this->addFlash("success", "L'image a bien été ajoutée!");
             return $this->redirectToRoute("tricks_update", ['slug' => $tricks->getSlug()]);
         }elseif($form->getErrors(true, false)->count() > 0){
             $this->addFlash("danger", $form->getErrors(true));
@@ -61,6 +61,7 @@ class ImageController extends AbstractController
         $slug = $image->getTricks()->getSlug();
         $imageService->deleteImage($image);
 
+        $this->addFlash("success", "L'image a bien été supprimée!");
         return $this->redirectToRoute('tricks_update', ['slug' => $slug]);
     }
 }

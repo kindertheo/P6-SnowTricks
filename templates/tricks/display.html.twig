@@ -122,8 +122,8 @@
                                 {% for comment in pagination.data %}
                                     <div class="row mb-3 pl-2 bg-light">
                                         <span class="comment-anchor" id="{{ comment.id }}"></span>
-                                        <div class="col-md-2 col-sm-4 col-xs-6">
-                                            <img src="{{ comment.author.picture }}" class="rounded-circle" alt="{{ comment.author.fullName}}">
+                                        <div class="col-md-2 col-sm-4 col-xs-6 text-center">
+                                            <img src="{{ asset(comment.author.picture) }}" class="user-profile" alt="{{ comment.author.fullName}}">
                                         </div>
                                         <div class="col-10 col-sm-8 col-xs-6">
                                             <p>{{ comment.content }}</p>

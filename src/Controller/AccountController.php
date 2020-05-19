@@ -27,7 +27,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class AccountController extends AbstractController
 {
     /*TODO REFAIRE UML + JEU DE DONNEES
-    TODO TEST UNITAIRE*/
     /*TODO SUPPORT PRESENTATION*/
     /**
      * Affiche et gère le formulaire de connexion

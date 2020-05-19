@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-/*TODO Ajouter contraintes de validation!*/
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TricksRepository")
@@ -28,13 +27,13 @@ class Tricks
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=8, minMessage="Le nom doit être plus long")
+     * @Assert\Length(min=8, minMessage="Le nom doit être plus long", allowEmptyString="false")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\Length(min=25, minMessage="La description doit être plus longue")
+     * @Assert\Length(min=25, minMessage="La description doit être plus longue", allowEmptyString="false")
      */
     private $description;
 
@@ -84,6 +83,7 @@ class Tricks
      * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="tricks")
      * @Assert\Valid()
      *  Allow validation of Video Entity
+     * @ORM\JoinColumn(name="tricks_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $videos;
 

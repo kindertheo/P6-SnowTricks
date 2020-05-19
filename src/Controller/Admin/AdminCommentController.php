@@ -3,9 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Comment;
-use App\Entity\Tricks;
 use App\Repository\CommentRepository;
-use App\Service\PaginationCommentService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;

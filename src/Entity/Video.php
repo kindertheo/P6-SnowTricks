@@ -32,6 +32,7 @@ class Video
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Tricks", inversedBy="videos")
+     * @ORM\JoinColumn(name="tricks_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $tricks;
 

@@ -154,7 +154,7 @@ class PaginationCommentService {
         // 1) Connaitre le total des enregistrements de la table
         $total = $this->manager
             ->getRepository($this->entityClass)
-            ->findBy(['tricks' => $this->tricks])
+            ->findBy(['tricks' => $this->tricks], ['date' => 'DESC'])
         ;
 
         // 2) Faire la division, l'arrondi et le renvoyer
@@ -185,7 +185,7 @@ class PaginationCommentService {
         // dans la limite d'éléments imposée (voir propriété $limit)
         return $this->manager
             ->getRepository($this->entityClass)
-            ->findBy(['tricks' => $this->tricks], [], $this->limit, $offset);
+            ->findBy(['tricks' => $this->tricks], ['date' => 'DESC'], $this->limit, $offset);
     }
 
     /**
