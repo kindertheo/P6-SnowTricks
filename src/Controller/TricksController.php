@@ -30,7 +30,6 @@ class TricksController extends AbstractController
      */
     public function index(TricksRepository $tricks)
     {
-
         return $this->render('tricks/index.html.twig', [
             'tricks' => $tricks->findAll(),
         ]);
@@ -112,7 +111,7 @@ class TricksController extends AbstractController
         }
 
         $paginationService->setEntityClass(Comment::class)
-            ->setLimit(3)
+            ->setLimit(10)
             ->setPage($page)
             ->setEntitySlug($tricks->getSlug())
             ->setTricks($tricks);
