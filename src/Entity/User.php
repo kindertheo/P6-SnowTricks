@@ -62,7 +62,7 @@ class User implements UserInterface
     public $passwordConfirm;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Length(min=10, minMessage="Votre introduction doit faire au moins 10 caractères")
+     * @Assert\Length(min=10, minMessage="Votre introduction doit faire au moins 10 caractères", allowEmptyString="true")
      */
     private $introduction;
 
@@ -136,6 +136,19 @@ class User implements UserInterface
     public function initializeDate(){
         $this->signUpDate = new \DateTime("now");
     }
+
+    /**
+     * Initialise l'image de profile
+     *
+     * @ORM\PreUpdate()
+     * @ORM\PrePersist()
+     * @throws Exception
+     *
+     */
+    public function initializePicture(){
+        $this->picture = 'img/profile/default_profile.jpg';
+    }
+
 
     public function __construct()
     {
