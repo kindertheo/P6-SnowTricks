@@ -121,7 +121,7 @@ class AppFixtures extends Fixture
             $comment->setContent($faker->paragraph())
                     ->setTricks($tricks[array_rand($tricks)])
                     ->setAuthor($users[array_rand($users)])
-                    ->setDate(new \DateTime());
+                    ->setDate($faker->dateTimeBetween('-3 months', 'now'));
             $manager->persist($comment);
         }
 
