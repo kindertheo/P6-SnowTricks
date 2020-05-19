@@ -34,7 +34,7 @@
                             <img src="{{ asset(trick.mainimage) }}" alt="Image du trick" class="tricks-micro"></td>
                         <td>
                             {% for video in trick.videos %}
-                            <a href="{{ asset(video.video) }}">Lien</a>
+                            <a href="{{ asset(video.video) }}">{{ video.name }}</a>
                             {% endfor %}
                         </td>
                         <td>
