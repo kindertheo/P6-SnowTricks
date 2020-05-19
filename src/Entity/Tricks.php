@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-/*TODO Ajouter contraintes de validation!*/
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TricksRepository")
@@ -84,6 +83,7 @@ class Tricks
      * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="tricks")
      * @Assert\Valid()
      *  Allow validation of Video Entity
+     * @ORM\JoinColumn(name="tricks_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $videos;
 

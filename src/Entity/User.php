@@ -140,7 +140,6 @@ class User implements UserInterface
     /**
      * Initialise l'image de profile
      *
-     * @ORM\PreUpdate()
      * @ORM\PrePersist()
      * @throws Exception
      *
