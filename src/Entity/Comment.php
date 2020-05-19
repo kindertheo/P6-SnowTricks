@@ -7,7 +7,6 @@ use Exception;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-/*TODO Put ON DELETE Cascade in DB*/
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -24,7 +23,7 @@ class Comment
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\Length(min=20, minMessage="Votre introduction doit faire au moins 10 caractères", allowEmptyString="false")
+     * @Assert\Length(min=10, minMessage="Votre message doit faire au moins 10 caractères", allowEmptyString="false")
      */
     private $content;
 
