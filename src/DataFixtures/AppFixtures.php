@@ -109,7 +109,7 @@ class AppFixtures extends Fixture
         for($i= 1; $i<= 25; $i++){
             $image = new Video();
             $image->setVideo("https://www.youtube.com/embed/SQyTWk7OxSI")
-                ->setName("name")
+                ->setName($faker->word)
                 ->setTricks($tricks[mt_rand(0, count($tricks)-1)]);
             $manager->persist($image);
             $manager->flush();
