@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /*TODO Put ON DELETE Cascade in DB*/
 
@@ -22,6 +24,7 @@ class Comment
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=20, minMessage="Votre introduction doit faire au moins 10 caractères", allowEmptyString="false")
      */
     private $content;
 
