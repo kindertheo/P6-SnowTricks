@@ -23,13 +23,18 @@ class AccountTest extends WebTestCase
         $form['register[email]'] = 'toto@email.com';
         $form['register[firstName]'] = 'usernametest';
         $form['register[lastName]'] = 'Doe';
-        $form['register[password]'] = 'pass1';
-        $form['register[passwordConfirm]'] = 'pass1236';
+        $form['register[password]'] = 'pass123456789';
+        $form['register[passwordConfirm]'] = 'pass1236456789132465';
 
         $crawler = $client->submit($form);
 
         $alert = $crawler->filter('.form-error-message')->count();
-        $this->assertEquals(1, $alert);
+        if($alert > 0){
+            $message = $crawler->filter('.form-error-message')->text();
+        } else {
+            $message = "";
+        }
+        $this->assertEquals(1, $alert, $message);
     }
 
 
