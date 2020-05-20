@@ -12,9 +12,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class AccountTest extends WebTestCase
 {
-    //fail test
     /**
-     *
+     * fail test
      */
     public function testFailureCheckPassword()
     {
@@ -44,11 +43,8 @@ class AccountTest extends WebTestCase
         $this->assertEquals(1, $alert, $message);
     }
 
-
-    //success test
-
     /**
-     *
+     * success test
      */
     public function testcreateAccount()
     {
@@ -78,7 +74,7 @@ class AccountTest extends WebTestCase
     }
 
     /**
-     *
+     * success test login
      */
     public function testLogin(){
         $client = static::createClient();
