@@ -38,7 +38,8 @@ class EmailService extends AbstractController
                         'fullName' => $fullName,
                         'link' => $link,
                     ]
-                )
+                ),
+                'text/html'
             )
         ;
         $mailer->send($message);
@@ -69,7 +70,8 @@ class EmailService extends AbstractController
                         'fullName' => $fullName,
                         'link' => $link,
                     ]
-                )
+                ),
+                'text/html'
             )
         ;
         $mailer->send($message);
