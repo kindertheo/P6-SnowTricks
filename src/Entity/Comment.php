@@ -56,16 +56,26 @@ class Comment
         }
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getContent(): ?string
     {
         return $this->content;
     }
 
+    /**
+     * @param string $content
+     * @return $this
+     */
     public function setContent(string $content): self
     {
         $this->content = $content;
@@ -73,11 +83,18 @@ class Comment
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
+    /**
+     * @param \DateTimeInterface $date
+     * @return $this
+     */
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
@@ -85,11 +102,18 @@ class Comment
         return $this;
     }
 
+    /**
+     * @return User|null
+     */
     public function getAuthor(): ?User
     {
         return $this->author;
     }
 
+    /**
+     * @param User|null $author
+     * @return $this
+     */
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
@@ -97,11 +121,18 @@ class Comment
         return $this;
     }
 
+    /**
+     * @return Tricks|null
+     */
     public function getTricks(): ?Tricks
     {
         return $this->tricks;
     }
 
+    /**
+     * @param Tricks|null $tricks
+     * @return $this
+     */
     public function setTricks(?Tricks $tricks): self
     {
         $this->tricks = $tricks;

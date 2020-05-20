@@ -8,8 +8,15 @@ use Symfony\Component\Security\Core\Exception\AccountExpiredException;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+/**
+ * Class UserChecker
+ * @package App\Security
+ */
 class UserChecker implements UserCheckerInterface
 {
+    /**
+     * @param UserInterface $user
+     */
     public function checkPreAuth(UserInterface $user)
     {
         if (!$user instanceof AppUser) {
@@ -18,6 +25,9 @@ class UserChecker implements UserCheckerInterface
 
     }
 
+    /**
+     * @param UserInterface $user
+     */
     public function checkPostAuth(UserInterface $user)
     {
         if (!$user instanceof AppUser) {

@@ -4,6 +4,10 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 
+/**
+ * Class ApplicationType
+ * @package App\Form
+ */
 class ApplicationType extends AbstractType{
 
     /**

@@ -6,9 +6,16 @@ namespace App\Tests\Unit;
 use Faker;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * Class AccountTest
+ * @package App\Tests\Unit
+ */
 class AccountTest extends WebTestCase
 {
     //fail test
+    /**
+     *
+     */
     public function testFailureCheckPassword()
     {
         $client = static::createClient();
@@ -39,6 +46,10 @@ class AccountTest extends WebTestCase
 
 
     //success test
+
+    /**
+     *
+     */
     public function testcreateAccount()
     {
         $faker = Faker\Factory::create();
@@ -66,6 +77,9 @@ class AccountTest extends WebTestCase
         $this->assertEquals(0, $alert);
     }
 
+    /**
+     *
+     */
     public function testLogin(){
         $client = static::createClient();
 

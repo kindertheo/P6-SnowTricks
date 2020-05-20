@@ -36,16 +36,26 @@ class Video
      */
     private $tricks;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -53,11 +63,18 @@ class Video
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getVideo(): ?string
     {
         return $this->video;
     }
 
+    /**
+     * @param string $video
+     * @return $this
+     */
     public function setVideo(string $video): self
     {
         $this->video = $video;
@@ -65,11 +82,18 @@ class Video
         return $this;
     }
 
+    /**
+     * @return Tricks|null
+     */
     public function getTricks(): ?Tricks
     {
         return $this->tricks;
     }
 
+    /**
+     * @param Tricks|null $tricks
+     * @return $this
+     */
     public function setTricks(?Tricks $tricks): self
     {
         $this->tricks = $tricks;

@@ -20,6 +20,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class TricksController
+ * @package App\Controller
+ */
 class TricksController extends AbstractController
 {
     /**
@@ -78,6 +82,7 @@ class TricksController extends AbstractController
     }
 
 
+    /*TODO Pagination service*/
     /**
      * Page of one trick
      * @Route("/tricks/{slug}/{page<\d+>?1}", name="tricks_display",  requirements={"id"="\d+"})
@@ -89,7 +94,6 @@ class TricksController extends AbstractController
      * @param $page
      * @return Response
      */
-    /*TODO Créer un service de pagination !*/
     public function display(Tricks $tricks, CommentRepository $comment, Request $request, EntityManagerInterface $manager, PaginationCommentService $paginationService, $page){
         //create form for comment
         $newComment = new Comment();

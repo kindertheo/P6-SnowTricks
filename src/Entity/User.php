@@ -152,6 +152,9 @@ class User implements UserInterface
     }
 
 
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         $this->tricks = new ArrayCollection();
@@ -159,16 +162,26 @@ class User implements UserInterface
         $this->comments = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
+    /**
+     * @param string $firstName
+     * @return $this
+     */
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
@@ -176,11 +189,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
+    /**
+     * @param string $lastName
+     * @return $this
+     */
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
@@ -188,17 +208,27 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getFullName(): ?string
     {
         return "{$this->firstName} {$this->lastName}";
     }
 
 
+    /**
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     * @return $this
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -206,11 +236,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPicture(): ?string
     {
         return $this->picture;
     }
 
+    /**
+     * @param string $picture
+     * @return $this
+     */
     public function setPicture(string $picture): self
     {
         $this->picture = $picture;
@@ -218,11 +255,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPassword(): ?string
     {
         return $this->password;
     }
 
+    /**
+     * @param string $password
+     * @return $this
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -230,11 +274,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getIntroduction(): ?string
     {
         return $this->introduction;
     }
 
+    /**
+     * @param string|null $introduction
+     * @return $this
+     */
     public function setIntroduction(?string $introduction): self
     {
         $this->introduction = $introduction;
@@ -242,11 +293,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * @param string $slug
+     * @return $this
+     */
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
@@ -262,6 +320,10 @@ class User implements UserInterface
         return $this->tricks;
     }
 
+    /**
+     * @param Tricks $trick
+     * @return $this
+     */
     public function addTrick(Tricks $trick): self
     {
         if (!$this->tricks->contains($trick)) {
@@ -272,6 +334,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Tricks $trick
+     * @return $this
+     */
     public function removeTrick(Tricks $trick): self
     {
         if ($this->tricks->contains($trick)) {
@@ -285,11 +351,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getSignUpDate(): ?\DateTimeInterface
     {
         return $this->signUpDate;
     }
 
+    /**
+     * @param \DateTimeInterface $signUpDate
+     * @return $this
+     */
     public function setSignUpDate(\DateTimeInterface $signUpDate): self
     {
         $this->signUpDate = $signUpDate;
@@ -360,6 +433,10 @@ class User implements UserInterface
         return $this->userRoles;
     }
 
+    /**
+     * @param Role $userRole
+     * @return $this
+     */
     public function addUserRole(Role $userRole): self
     {
         if (!$this->userRoles->contains($userRole)) {
@@ -370,6 +447,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Role $userRole
+     * @return $this
+     */
     public function removeUserRole(Role $userRole): self
     {
         if ($this->userRoles->contains($userRole)) {
@@ -388,6 +469,10 @@ class User implements UserInterface
         return $this->comments;
     }
 
+    /**
+     * @param Comment $comment
+     * @return $this
+     */
     public function addComment(Comment $comment): self
     {
         if (!$this->comments->contains($comment)) {
@@ -398,6 +483,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Comment $comment
+     * @return $this
+     */
     public function removeComment(Comment $comment): self
     {
         if ($this->comments->contains($comment)) {
@@ -411,11 +500,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getRegistrationToken(): ?string
     {
         return $this->registrationToken;
     }
 
+    /**
+     * @param string|null $registrationToken
+     * @return $this
+     */
     public function setRegistrationToken(?string $registrationToken): self
     {
         $this->registrationToken = $registrationToken;
@@ -423,11 +519,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getRegTokenCreatedAt(): ?\DateTimeInterface
     {
         return $this->regTokenCreatedAt;
     }
 
+    /**
+     * @param \DateTimeInterface $regTokenCreatedAt
+     * @return $this
+     */
     public function setRegTokenCreatedAt(\DateTimeInterface $regTokenCreatedAt): self
     {
         $this->regTokenCreatedAt = $regTokenCreatedAt;
@@ -435,11 +538,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getForgotPassToken(): ?string
     {
         return $this->forgotPassToken;
     }
 
+    /**
+     * @param string|null $forgotPassToken
+     * @return $this
+     */
     public function setForgotPassToken(?string $forgotPassToken): self
     {
         $this->forgotPassToken = $forgotPassToken;
@@ -447,11 +557,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getForgotPassTokenCreatedAt(): ?\DateTimeInterface
     {
         return $this->forgotPassTokenCreatedAt;
     }
 
+    /**
+     * @param \DateTimeInterface|null $forgotPassTokenCreatedAt
+     * @return $this
+     */
     public function setForgotPassTokenCreatedAt(?\DateTimeInterface $forgotPassTokenCreatedAt): self
     {
         $this->forgotPassTokenCreatedAt = $forgotPassTokenCreatedAt;

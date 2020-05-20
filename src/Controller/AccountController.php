@@ -24,6 +24,10 @@ use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+/**
+ * Class AccountController
+ * @package App\Controller
+ */
 class AccountController extends AbstractController
 {
     /*TODO REFAIRE UML + JEU DE DONNEES

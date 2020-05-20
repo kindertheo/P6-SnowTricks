@@ -11,6 +11,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * Class VideoService
+ * @package App\Service
+ */
 class VideoService extends AbstractController
 {
 
@@ -20,11 +24,19 @@ class VideoService extends AbstractController
      */
     private $entityManager;
 
+    /**
+     * VideoService constructor.
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @param Video $video
+     * @param Tricks $tricks
+     */
     public function addVideo(Video $video, Tricks $tricks)
     {
         $video->setTricks($tricks);
@@ -33,6 +45,10 @@ class VideoService extends AbstractController
         $this->entityManager->flush();
     }
 
+    /**
+     * @param Video $video
+     * @return RedirectResponse
+     */
     public function deleteVideo(Video $video)
     {
         $slug = $video->getTricks()->getSlug();

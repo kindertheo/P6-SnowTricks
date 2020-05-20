@@ -4,9 +4,16 @@ namespace App\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class PasswordUpdate
+ * @package App\Entity
+ */
 class PasswordUpdate
 {
 
+    /**
+     * @var
+     */
     private $oldPassword;
 
     /**
@@ -19,11 +26,18 @@ class PasswordUpdate
      */
     private $confirmPassword;
 
+    /**
+     * @return string|null
+     */
     public function getOldPassword(): ?string
     {
         return $this->oldPassword;
     }
 
+    /**
+     * @param string $oldPassword
+     * @return $this
+     */
     public function setOldPassword(string $oldPassword): self
     {
         $this->oldPassword = $oldPassword;
@@ -31,11 +45,18 @@ class PasswordUpdate
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getNewPassword(): ?string
     {
         return $this->newPassword;
     }
 
+    /**
+     * @param string $newPassword
+     * @return $this
+     */
     public function setNewPassword(string $newPassword): self
     {
         $this->newPassword = $newPassword;
@@ -43,11 +64,18 @@ class PasswordUpdate
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getConfirmPassword(): ?string
     {
         return $this->confirmPassword;
     }
 
+    /**
+     * @param string $confirmPassword
+     * @return $this|null
+     */
     public function setConfirmPassword(string $confirmPassword): ?self
     {
         $this->confirmPassword = $confirmPassword;
