@@ -239,6 +239,7 @@ class AccountController extends AbstractController
      * @param EmailService $emailService
      * @param EntityManagerInterface $manager
      * @return RedirectResponse|Response
+     * @throws \Exception
      */
     public function mailPasswordForgot(Request $request, \Swift_Mailer $mailer, EmailService $emailService, EntityManagerInterface $manager){
         $form = $this->createFormBuilder()
@@ -272,8 +273,8 @@ class AccountController extends AbstractController
      */
     public function passwordForgot(Request $request, EntityManagerInterface $manager, $token, UserPasswordEncoderInterface $encoder){
         $form = $this->createFormBuilder()
-            ->add("newPassword", PasswordType::class)
-            ->add("newPasswordConfirm", PasswordType::class)
+            ->add("newPassword", PasswordType::class, ['label' => 'Nouveau mot de passe'])
+            ->add("newPasswordConfirm", PasswordType::class, ['label' => 'Confirmation du nouveau mot de passe'])
             ->getForm();
         $form->handleRequest($request);
 
