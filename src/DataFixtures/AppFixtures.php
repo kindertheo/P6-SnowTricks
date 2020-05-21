@@ -63,7 +63,8 @@ class AppFixtures extends Fixture
         for($i= 0; $i <= 10; $i++){
             $user = new User();
 
-            $firstName = $faker->firstName(0);
+
+            $firstName = $faker->firstName('female');
             $lastName = $faker->lastName;
             $slug = $slugify->slugify($firstName . $lastName);
             $email = $faker->email;
@@ -89,18 +90,19 @@ class AppFixtures extends Fixture
         $count = count($users);
 
         $tricks = [];
+        $cat = ['Slide', 'Rotation', 'Grab'];
         /* generate tricks */
         for($i = 1; $i <= 15; $i++){
             $trick = new Tricks();
 
             $name = $faker->sentence(2);
-            $slug = $slugify->slugify($name);
             $image = "img/tricks".mt_rand(1,6).".jpg";
 
             $trick->setName($name)
-                ->setCategory("360")
+                ->setCategory( $cat[mt_rand(0,count($cat) - 1)] )
                 ->setDescription($faker->paragraph())
                 ->setMainImage($image)
+                ->setCreatedAt($faker->dateTimeBetween("-6 months", "now"))
                 ->setAuthor($users[mt_rand(0, $count - 1)]);
 
             $tricks[] = $trick;
@@ -111,7 +113,7 @@ class AppFixtures extends Fixture
         /*generate images for tricks*/
         for($i= 1; $i<= 100; $i++){
             $image = new Image();
-            $image->setPath("img/tricks".mt_rand(1,5).".jpg")
+            $image->setPath("img/tricks".mt_rand(1,6).".jpg")
                 ->setName("random")
                 ->setImage("image")
                 ->setTricks($tricks[mt_rand(0, count($tricks)-1)]);
