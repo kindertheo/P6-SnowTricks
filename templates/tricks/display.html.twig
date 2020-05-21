@@ -16,7 +16,7 @@
                                 Par : <a target="" href="{{ path('user_profile', {'id' : tricks.author.id} ) }}">{{ tricks.author.fullName }}</a>
                             </li> |
                             <li class="list-inline-item">
-                                Ajouté le {{ tricks.createdAt | date('d/m/Y') }} (<small>Mise à jour le : {% if tricks.updatedAt is defined %}{{ tricks.updatedAt | date('d/m/Y') }}{% endif %}</small>)
+                                Ajouté le {{ tricks.createdAt | date('d/m/Y') }}  {% if tricks.updatedAt is not null %}(<small>Mise à jour le : {{ tricks.updatedAt | date('d/m/Y') }} </small>) {% endif %}
                             </li> |
                             <li class="list-inline-item">
                                 Catégorie : {{ tricks.category }}
