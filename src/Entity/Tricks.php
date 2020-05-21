@@ -130,6 +130,17 @@ class Tricks
     }
 
     /**
+     * Date de mise à jour
+     *
+     * @ORM\PreUpdate()
+     * @throws \Exception
+     *
+     */
+    public function initializeUpdateDate(){
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
      * @return int|null
      */
     public function getId(): ?int
