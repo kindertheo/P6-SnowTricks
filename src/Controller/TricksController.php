@@ -156,10 +156,9 @@ class TricksController extends AbstractController
      * @param Tricks $tricks
      * @param EntityManagerInterface $manager
      * @param Request $request
-     * @param UploadImgService $upload
      * @return Response
      */
-    public function update(Tricks $tricks, EntityManagerInterface $manager, Request $request, UploadImgService $upload){
+    public function update(Tricks $tricks, EntityManagerInterface $manager, Request $request){
         $form = $this->createForm(TricksUpdateType::class, $tricks);
 
         $form->handleRequest($request);
