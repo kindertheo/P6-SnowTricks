@@ -96,7 +96,7 @@ class AppFixtures extends Fixture
             $trick = new Tricks();
 
             $name = $faker->sentence(2);
-            $image = "img/tricks".mt_rand(1,6).".jpg";
+            $image = "img/tricks".mt_rand(1,12).".jpg";
 
             $trick->setName($name)
                 ->setCategory( $cat[mt_rand(0,count($cat) - 1)] )
@@ -113,7 +113,7 @@ class AppFixtures extends Fixture
         /*generate images for tricks*/
         for($i= 1; $i<= 100; $i++){
             $image = new Image();
-            $image->setPath("img/tricks".mt_rand(1,6).".jpg")
+            $image->setPath("img/tricks".mt_rand(1,12).".jpg")
                 ->setName("random")
                 ->setImage("image")
                 ->setTricks($tricks[mt_rand(0, count($tricks)-1)]);
