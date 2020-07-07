@@ -167,15 +167,21 @@ class AccountController extends AbstractController
      */
     public function update(EntityManagerInterface $manager, Request $request, UploadImgService $uploadImgService){
         $user = $this->getUser();
+        /*IDK why but when I handle the request, the picture profile in the user's entity is empty
+        So I saved it before handling the request*/
+        $savedPicture = $user->getPicture();
 
         $form = $this->createForm(UpdateProfileType::class, $user);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            /*If user send a new image profile*/
             if(!empty($form['picture']->getData())){
                 $filename = $uploadImgService->upload($form['picture']->getData(), "img/profile/");
                 $user->setPicture($filename);
+            }else{
+                $user->setPicture($savedPicture);
             }
 
             $manager->persist($user);
@@ -209,6 +215,7 @@ class AccountController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             if(!password_verify($passwordUpdate->getOldPassword(), $user->getPassword())){
+                $this->addFlash("danger", "Votre mot de passe n'est pas bon");
 
             }else{
                 $newPassword = $passwordUpdate->getNewPassword();
