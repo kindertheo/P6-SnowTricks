@@ -1,7 +1,16 @@
-body {
+html {
     scroll-behavior: smooth;
+}
+
+body {
     background-color: #f0efef;
 }
+
+.container, .container-fluid {
+    padding-top: 3em;
+    padding-bottom: 3em;
+}
+
 a:link {
     text-decoration: none;
 }
@@ -12,12 +21,6 @@ a:link {
 
 /***************************************************/
 
-img.tricks-big {
-    max-height: 600px;
-    width:auto;
-    position:center;
-}
-
 img.tricks {
     max-height: 240px;
     max-width: 240px;
@@ -26,42 +29,6 @@ img.tricks {
 img.tricks-micro {
     max-height: 40px;
     max-width: 40px;
-}
-
-.container, .container-fluid {
-    padding-top: 3em;
-    padding-bottom: 3em;
-}
-
-img.avatar{
-    max-width: 120px;
-    max-height: 120px;
-}
-
-img.avatar-micro{
-    max-width: 60px;
-    max-height: 60px;
-}
-
-img.profile-micro {
-    max-height:30px;
-    max-width: 30px;
-    border-radius: 50%;
-}
-
-/***************************************************/
-
-/* TRICKS DISPLAY PAGE  */
-
-/***************************************************/
-
-.card {
-    border-radius: 0.625em;
-}
-.card-img-top {
-    height: 40vh;
-    border-top-left-radius: 0.625em;
-    border-top-right-radius: 0.625em;
 }
 
 .home-bg {
@@ -83,6 +50,36 @@ img.profile-micro {
     right:15px;
 }
 
+
+/***************************************************/
+
+/* PROFILE */
+
+/***************************************************/
+
+img.profile-micro {
+    height:40px;
+    width: auto;
+    border-radius: 50%;
+}
+
+/***************************************************/
+
+/* TRICKS LIST PAGE  */
+
+/***************************************************/
+
+.card {
+    border-radius: 0.625em;
+}
+
+.card-img-top {
+    height: 30vh;
+    border-top-left-radius: 0.625em;
+    border-top-right-radius: 0.625em;
+}
+
+
 .trick-display {
     background-color: rgba(254, 216, 187, 0.3);
     border-radius: 0.625em;
@@ -94,6 +91,7 @@ img.profile-micro {
 /* TRICKS PAGE */
 
 /***************************************************/
+
 .card-comment {
     background-color: rgba(254, 216, 187, 0.3);
     border-radius: 0.625em;
@@ -166,4 +164,17 @@ ol {
 img.user-profile {
     max-height: 128px;
     max-width: 128px;
+}
+
+
+/******************************/
+
+/* TRICKS UPDATE */
+
+/******************************/
+
+img.tricks-big {
+    max-height: 600px;
+    width:auto;
+    position:center;
 }

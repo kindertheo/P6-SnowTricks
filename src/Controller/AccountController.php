@@ -24,6 +24,10 @@ use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
+/**
+ * Class AccountController
+ * @package App\Controller
+ */
 class AccountController extends AbstractController
 {
     /*TODO REFAIRE UML + JEU DE DONNEES
@@ -163,15 +167,21 @@ class AccountController extends AbstractController
      */
     public function update(EntityManagerInterface $manager, Request $request, UploadImgService $uploadImgService){
         $user = $this->getUser();
+        /*IDK why but when I handle the request, the picture profile in the user's entity is empty
+        So I saved it before handling the request*/
+        $savedPicture = $user->getPicture();
 
         $form = $this->createForm(UpdateProfileType::class, $user);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            /*If user send a new image profile*/
             if(!empty($form['picture']->getData())){
                 $filename = $uploadImgService->upload($form['picture']->getData(), "img/profile/");
                 $user->setPicture($filename);
+            }else{
+                $user->setPicture($savedPicture);
             }
 
             $manager->persist($user);
@@ -205,6 +215,7 @@ class AccountController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             if(!password_verify($passwordUpdate->getOldPassword(), $user->getPassword())){
+                $this->addFlash("danger", "Votre mot de passe n'est pas bon");
 
             }else{
                 $newPassword = $passwordUpdate->getNewPassword();
@@ -235,6 +246,7 @@ class AccountController extends AbstractController
      * @param EmailService $emailService
      * @param EntityManagerInterface $manager
      * @return RedirectResponse|Response
+     * @throws \Exception
      */
     public function mailPasswordForgot(Request $request, \Swift_Mailer $mailer, EmailService $emailService, EntityManagerInterface $manager){
         $form = $this->createFormBuilder()
@@ -268,8 +280,8 @@ class AccountController extends AbstractController
      */
     public function passwordForgot(Request $request, EntityManagerInterface $manager, $token, UserPasswordEncoderInterface $encoder){
         $form = $this->createFormBuilder()
-            ->add("newPassword", PasswordType::class)
-            ->add("newPasswordConfirm", PasswordType::class)
+            ->add("newPassword", PasswordType::class, ['label' => 'Nouveau mot de passe'])
+            ->add("newPasswordConfirm", PasswordType::class, ['label' => 'Confirmation du nouveau mot de passe'])
             ->getForm();
         $form->handleRequest($request);
 

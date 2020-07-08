@@ -28,21 +28,34 @@ class Role
      */
     private $users;
 
+    /**
+     * Role constructor.
+     */
     public function __construct()
     {
         $this->users = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * @param string $title
+     * @return $this
+     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -58,6 +71,10 @@ class Role
         return $this->users;
     }
 
+    /**
+     * @param User $user
+     * @return $this
+     */
     public function addUser(User $user): self
     {
         if (!$this->users->contains($user)) {
@@ -67,6 +84,10 @@ class Role
         return $this;
     }
 
+    /**
+     * @param User $user
+     * @return $this
+     */
     public function removeUser(User $user): self
     {
         if ($this->users->contains($user)) {

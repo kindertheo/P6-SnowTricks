@@ -10,9 +10,20 @@ use Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
+/**
+ * Class EmailService
+ * @package App\Service
+ */
 class EmailService extends AbstractController
 {
 
+    /**
+     * @param \Swift_Mailer $mailer
+     * @param User $user
+     * @param EntityManagerInterface $manager
+     * @return bool
+     * @throws \Exception
+     */
     public function sendRegistrationEmail(\Swift_Mailer $mailer, User $user, EntityManagerInterface $manager){
 
         $token = uuid_create(UUID_TYPE_RANDOM);
@@ -38,7 +49,8 @@ class EmailService extends AbstractController
                         'fullName' => $fullName,
                         'link' => $link,
                     ]
-                )
+                ),
+                'text/html'
             )
         ;
         $mailer->send($message);
@@ -46,6 +58,12 @@ class EmailService extends AbstractController
         return true;
     }
 
+    /**
+     * @param \Swift_Mailer $mailer
+     * @param User $user
+     * @param EntityManagerInterface $manager
+     * @throws \Exception
+     */
     public function sendForgotPassword(\Swift_Mailer $mailer, User $user, EntityManagerInterface $manager){
 
         $token = uuid_create(UUID_TYPE_RANDOM);
@@ -69,7 +87,8 @@ class EmailService extends AbstractController
                         'fullName' => $fullName,
                         'link' => $link,
                     ]
-                )
+                ),
+                'text/html'
             )
         ;
         $mailer->send($message);

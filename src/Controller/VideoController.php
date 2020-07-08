@@ -12,6 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class VideoController
+ * @package App\Controller
+ */
 class VideoController extends AbstractController
 {
     /**

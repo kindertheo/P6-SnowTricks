@@ -92,6 +92,9 @@ class Tricks
      */
     private $Category;
 
+    /**
+     * Tricks constructor.
+     */
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -126,16 +129,37 @@ class Tricks
         }
     }
 
+    /**
+     * Date de mise à jour
+     *
+     * @ORM\PreUpdate()
+     * @throws \Exception
+     *
+     */
+    public function initializeUpdateDate(){
+        $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -143,11 +167,18 @@ class Tricks
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * @param string $description
+     * @return $this
+     */
     public function setDescription(string $description): self
     {
         $this->description = $description;
@@ -155,11 +186,18 @@ class Tricks
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
+    /**
+     * @param \DateTimeInterface $createdAt
+     * @return $this
+     */
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
@@ -167,11 +205,18 @@ class Tricks
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
+    /**
+     * @param \DateTimeInterface|null $updatedAt
+     * @return $this
+     */
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
@@ -179,11 +224,18 @@ class Tricks
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * @param string $slug
+     * @return $this
+     */
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
@@ -191,11 +243,18 @@ class Tricks
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getMainImage(): ?string
     {
         return $this->mainImage;
     }
 
+    /**
+     * @param string $mainImage
+     * @return $this
+     */
     public function setMainImage(string $mainImage): self
     {
         $this->mainImage = $mainImage;
@@ -203,11 +262,18 @@ class Tricks
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getVideo(): ?string
     {
         return $this->video;
     }
 
+    /**
+     * @param string|null $video
+     * @return $this
+     */
     public function setVideo(?string $video): self
     {
         $this->video = $video;
@@ -215,11 +281,18 @@ class Tricks
         return $this;
     }
 
+    /**
+     * @return User|null
+     */
     public function getAuthor(): ?User
     {
         return $this->author;
     }
 
+    /**
+     * @param User|null $author
+     * @return $this
+     */
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
@@ -235,6 +308,10 @@ class Tricks
         return $this->comments;
     }
 
+    /**
+     * @param Comment $comment
+     * @return $this
+     */
     public function addComment(Comment $comment): self
     {
         if (!$this->comments->contains($comment)) {
@@ -245,6 +322,10 @@ class Tricks
         return $this;
     }
 
+    /**
+     * @param Comment $comment
+     * @return $this
+     */
     public function removeComment(Comment $comment): self
     {
         if ($this->comments->contains($comment)) {
@@ -266,6 +347,10 @@ class Tricks
         return $this->images;
     }
 
+    /**
+     * @param Image $image
+     * @return $this
+     */
     public function addImage(Image $image): self
     {
         if (!$this->images->contains($image)) {
@@ -276,6 +361,10 @@ class Tricks
         return $this;
     }
 
+    /**
+     * @param Image $image
+     * @return $this
+     */
     public function removeImage(Image $image): self
     {
         if ($this->images->contains($image)) {
@@ -297,6 +386,10 @@ class Tricks
         return $this->videos;
     }
 
+    /**
+     * @param Video $video
+     * @return $this
+     */
     public function addVideo(Video $video): self
     {
         if (!$this->videos->contains($video)) {
@@ -307,6 +400,10 @@ class Tricks
         return $this;
     }
 
+    /**
+     * @param Video $video
+     * @return $this
+     */
     public function removeVideo(Video $video): self
     {
         if ($this->videos->contains($video)) {
@@ -320,11 +417,18 @@ class Tricks
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getCategory(): ?string
     {
         return $this->Category;
     }
 
+    /**
+     * @param string $Category
+     * @return $this
+     */
     public function setCategory(string $Category): self
     {
         $this->Category = $Category;

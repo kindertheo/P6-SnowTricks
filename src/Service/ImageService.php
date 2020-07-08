@@ -13,6 +13,10 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * Class ImageService
+ * @package App\Service
+ */
 class ImageService extends AbstractController
 {
     /**
@@ -31,6 +35,12 @@ class ImageService extends AbstractController
      */
     private $uploadImgService;
 
+    /**
+     * ImageService constructor.
+     * @param EntityManagerInterface $entityManager
+     * @param RouterInterface $router
+     * @param UploadImgService $uploadImgService
+     */
     public function __construct(EntityManagerInterface $entityManager,
                                 RouterInterface $router, UploadImgService $uploadImgService)
     {
@@ -39,6 +49,12 @@ class ImageService extends AbstractController
         $this->uploadImgService = $uploadImgService;
     }
 
+    /**
+     * @param Image $image
+     * @param Tricks $tricks
+     * @param $imageFile
+     * @param bool $mainImage
+     */
     public function addImage(Image $image, Tricks $tricks, $imageFile, $mainImage = false)
     {
         if ($imageFile) {
@@ -61,6 +77,9 @@ class ImageService extends AbstractController
     }
 
     /*Delete image in db and in directory*/
+    /**
+     * @param Image $image
+     */
     public function deleteImage(Image $image)
     {
         $filesystem = new Filesystem();
@@ -73,6 +92,9 @@ class ImageService extends AbstractController
         $this->entityManager->flush();
     }
 
+    /**
+     * @param string $mainImage
+     */
     private function deleteFromPath(string $mainImage){
         $filesystem = new Filesystem();
         if ($filesystem->exists($mainImage)) {
@@ -80,6 +102,9 @@ class ImageService extends AbstractController
         }
     }
 
+    /**
+     * @param Tricks $tricks
+     */
     public function deleteAllImageFromTrick(Tricks $tricks){
         $mainImage = $tricks->getMainImage();
         $this->deleteFromPath($mainImage);

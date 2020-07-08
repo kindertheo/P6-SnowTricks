@@ -1,3 +1,4 @@
+{% if pages != 0 %}
 <div class="d-flex justify-content-center">
     <ul class="pagination">
         <li class="page-item {% if page == 1%} disabled {% endif %}">
@@ -13,3 +14,4 @@
         </li>
     </ul>
 </div>
+{% endif %}

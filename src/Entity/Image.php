@@ -39,17 +39,26 @@ class Image
     private $image;
 
 
-
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -57,11 +66,18 @@ class Image
         return $this;
     }
 
+    /**
+     * @return Tricks|null
+     */
     public function getTricks(): ?Tricks
     {
         return $this->Tricks;
     }
 
+    /**
+     * @param Tricks|null $Tricks
+     * @return $this
+     */
     public function setTricks(?Tricks $Tricks): self
     {
         $this->Tricks = $Tricks;
@@ -69,11 +85,18 @@ class Image
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPath(): ?string
     {
         return $this->path;
     }
 
+    /**
+     * @param string $path
+     * @return $this
+     */
     public function setPath(string $path): self
     {
         $this->path = $path;
@@ -81,11 +104,18 @@ class Image
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getImage(): ?string
     {
         return $this->image;
     }
 
+    /**
+     * @param string $image
+     * @return $this
+     */
     public function setImage(string $image): self
     {
         $this->image = $image;
